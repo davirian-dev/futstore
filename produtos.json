@@ -1,0 +1,170 @@
+[
+  {
+    "id": "bahia-titular-2026",
+    "nome": "Camisa Bahia Titular 24/25 - Torcedor",
+    "time": "Bahia",
+    "categoria": "brasileiros",
+    "preco": 149.90,
+    "preco_antigo": 289.90,
+    "imagem": "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Mais Vendida",
+    "pronta_entrega": true,
+    "descricao": "Manto oficial do Esquadrão de Aço. Tecido DryFit tecnológico com escudo bordado de alta definição e costuras reforçadas padrão 1:1."
+  },
+  {
+    "id": "vitoria-titular-2026",
+    "nome": "Camisa Vitória Rubro-Negra 24/25 - Oficial",
+    "time": "Vitória",
+    "categoria": "brasileiros",
+    "preco": 149.90,
+    "preco_antigo": 279.90,
+    "imagem": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Destaque",
+    "pronta_entrega": true,
+    "descricao": "O clássico Leão da Barra com listras horizontais rubro-negras. Caimento atlético, respirabilidade máxima e etiqueta oficial."
+  },
+  {
+    "id": "real-madrid-titular-2026",
+    "nome": "Camisa Real Madrid Home 24/25 - Branca",
+    "time": "Real Madrid",
+    "categoria": "europeus",
+    "preco": 159.90,
+    "preco_antigo": 329.90,
+    "imagem": "https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Campeão Europeu",
+    "pronta_entrega": false,
+    "descricao": "O manto do maior campeão da Champions. Detalhes em dourado/preto com tecido de alta absorção e acabamento impecável."
+  },
+  {
+    "id": "barcelona-retro-1999",
+    "nome": "Camisa Barcelona Retrô Centenário 1999/00 - Rivaldo 10",
+    "time": "Barcelona",
+    "categoria": "retro",
+    "preco": 169.90,
+    "preco_antigo": 349.90,
+    "imagem": "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Retrô Histórica",
+    "pronta_entrega": false,
+    "descricao": "Uma das camisas mais icônicas da história do futebol mundial. Meio a meio azul e grená comemorativo de 100 anos com gola polo clássica."
+  },
+  {
+    "id": "flamengo-titular-2026",
+    "nome": "Camisa Flamengo Rubro-Negra 24/25",
+    "time": "Flamengo",
+    "categoria": "brasileiros",
+    "preco": 149.90,
+    "preco_antigo": 299.90,
+    "imagem": "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Top Vendas",
+    "pronta_entrega": true,
+    "descricao": "Manto sagrado da Nação. Tecido com tecnologia de micro-perfurações respiráveis, alta durabilidade e escudo bordado de precisão."
+  },
+  {
+    "id": "brasil-amarela-2026",
+    "nome": "Camisa Seleção Brasileira Titular Canarinho",
+    "time": "Brasil",
+    "categoria": "selecoes",
+    "preco": 159.90,
+    "preco_antigo": 319.90,
+    "imagem": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Pentacampeã",
+    "pronta_entrega": true,
+    "descricao": "A camisa mais respeitada do mundo. Detalhes de textura homenageando a fauna e flora do Brasil, caimento premium e escudo bordado."
+  },
+  {
+    "id": "brasil-retro-2002",
+    "nome": "Camisa Seleção Brasileira Retrô Copa 2002 - Ronaldo 9",
+    "time": "Brasil",
+    "categoria": "retro",
+    "preco": 169.90,
+    "preco_antigo": 349.90,
+    "imagem": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Retrô Penta",
+    "pronta_entrega": true,
+    "descricao": "O manto da conquista do Pentacampeonato em Yokohama com o corte duplo clássico e número 9 do Fenômeno."
+  },
+  {
+    "id": "man-city-titular-2026",
+    "nome": "Camisa Manchester City Home 24/25 - Haaland 9",
+    "time": "Manchester City",
+    "categoria": "europeus",
+    "preco": 159.90,
+    "preco_antigo": 329.90,
+    "imagem": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Premier League",
+    "pronta_entrega": false,
+    "descricao": "Azul celeste dos Citizens, tecnologia anti-suor DryCell e detalhes gráficos na gola homenageando a cidade de Manchester."
+  },
+  {
+    "id": "corta-vento-psg-2026",
+    "nome": "Jaqueta Corta-Vento PSG Paris Saint-Germain Impermeável",
+    "time": "PSG",
+    "categoria": "agasalhos",
+    "preco": 199.90,
+    "preco_antigo": 399.90,
+    "imagem": "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Corta-Vento",
+    "pronta_entrega": true,
+    "descricao": "Jaqueta esportiva com forro duplo respirável, capuz ajustável e tecido repelente a vento e garoa leve. Ideal para treino e streetwear."
+  },
+  {
+    "id": "camisa-real-feminina-2026",
+    "nome": "Camisa Real Madrid Feminina Babylook 24/25",
+    "time": "Real Madrid",
+    "categoria": "infantil_feminina",
+    "preco": 149.90,
+    "preco_antigo": 279.90,
+    "imagem": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "Feminina",
+    "pronta_entrega": true,
+    "descricao": "Modelagem feminina anatômica com cintura ajustada, gola delicada e acabamento premium 1:1."
+  },
+  {
+    "id": "lakers-lebron-23",
+    "nome": "Regata NBA Los Angeles Lakers #23 - James",
+    "time": "Lakers",
+    "categoria": "europeus",
+    "preco": 159.90,
+    "preco_antigo": 319.90,
+    "imagem": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=700&q=80",
+    "imagens_detalhes": [
+      "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=700&q=80"
+    ],
+    "tag": "NBA Premium",
+    "pronta_entrega": false,
+    "descricao": "Regata oficial em mesh respirável de secagem ultra rápida com numeração em silk termossoldado de alta definição."
+  }
+]

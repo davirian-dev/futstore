@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel dos Sócios • FutStore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #07090E; }
+        .font-heading { font-family: 'Space Grotesk', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen p-3 sm:p-6 lg:p-8">
+
+    <!-- TELA DE BLOQUEIO POR PIN -->
+    <div id="pin-screen" class="fixed inset-0 z-50 bg-[#07090E] flex flex-col items-center justify-center p-4">
+        <div class="max-w-xs w-full bg-[#0D121F] border border-white/10 rounded-3xl p-6 text-center shadow-2xl">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
+            </div>
+            <h2 class="text-xl font-heading font-black text-white">Painel dos Sócios</h2>
+            <p class="text-xs text-slate-400 mt-1 mb-5">Área restrita de gestão para os 3 amigos de infância da FutStore.</p>
+
+            <form onsubmit="event.preventDefault(); verificarPin();">
+                <input type="password" id="input-pin" maxlength="6" placeholder="PIN" autofocus class="w-full text-center py-3 px-4 rounded-xl bg-black/60 border border-white/10 text-2xl font-mono text-emerald-400 tracking-widest focus:outline-none focus:border-emerald-400 mb-4">
+                <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-sm rounded-xl shadow-lg shadow-emerald-500/20 transition-all">
+                    Entrar no Painel
+                </button>
+            </form>
+            <p id="pin-erro" class="hidden text-xs text-red-400 font-bold mt-3">PIN incorreto. Use o código cadastrado (2026).</p>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL DO PAINEL -->
+    <main id="painel-content" class="hidden max-w-7xl mx-auto space-y-6">
+        
+        <!-- HEADER DO PAINEL -->
+        <header class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-white/10">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-black flex items-center justify-center font-heading font-black text-2xl shadow-lg shadow-emerald-500/20">
+                    F
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-2xl font-heading font-black text-white">FutStore • Painel dos Sócios</h1>
+                        <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold border border-emerald-500/20">Trio de Sócios</span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-mono">Gestão financeira transparente, esteira operacional e inteligência de vendas</p>
+                </div>
+            </div>
+
+            <!-- FILTRO DE PERÍODO & ATALHOS -->
+            <div class="flex flex-wrap items-center gap-2.5">
+                <div class="flex items-center bg-white/5 border border-white/10 rounded-xl p-1">
+                    <button onclick="setPeriodo('hoje')" id="btn-periodo-hoje" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white">Hoje</button>
+                    <button onclick="setPeriodo('7d')" id="btn-periodo-7d" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white">Últimos 7 dias</button>
+                    <button onclick="setPeriodo('mes')" id="btn-periodo-mes" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-emerald-500 text-black shadow-md">Este Mês</button>
+                </div>
+
+                <a href="../" target="_blank" class="py-2 px-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1.5">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Ver Loja
+                </a>
+
+                <button onclick="sairPainel()" class="p-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all" title="Sair do painel">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- BUSCA GLOBAL RÁPIDA (Cliente, CPF ou Pedido) -->
+        <section class="bg-gradient-to-r from-[#0D121F] to-[#121828] border border-white/10 rounded-2xl p-4 shadow-xl">
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+                <div class="relative flex-1 w-full">
+                    <i data-lucide="search" class="w-4 h-4 text-emerald-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="input-busca-global" oninput="buscarGlobal()" placeholder="Buscar por Nome do Cliente, CPF ou Número do Pedido (Ex: #FUT-1002)..." class="w-full pl-11 pr-4 py-3 rounded-xl bg-black/60 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-all font-mono">
+                </div>
+                <button onclick="resetarBusca()" class="w-full sm:w-auto px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-slate-300">
+                    Limpar
+                </button>
+            </div>
+            <!-- Painel de resultado da busca rápida -->
+            <div id="resultado-busca-global" class="hidden mt-4 pt-4 border-t border-white/10 space-y-3"></div>
+        </section>
+
+        <!-- 1. INDICADORES FINANCEIROS (CARDS NO TOPO) -->
+        <section>
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-400"></i>
+                    1. Indicadores Financeiros (<span id="label-periodo-atual">Este Mês</span>)
+                </h2>
+                <span class="text-[11px] text-slate-500">CMV médio estimado em 50% + frete & taxas</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Faturamento Bruto -->
+                <div class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 hover:border-emerald-500/40 transition-all shadow-lg">
+                    <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
+                        <span class="font-bold">Faturamento Bruto</span>
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                            <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-white" id="card-faturamento">R$ 0,00</div>
+                    <div class="text-[11px] text-emerald-400 mt-2 flex items-center gap-1 font-semibold">
+                        <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                        <span id="card-pedidos-count">0 pedidos pagos</span>
+                    </div>
+                </div>
+
+                <!-- Lucro Líquido Real -->
+                <div class="bg-[#0D121F] border border-emerald-500/30 rounded-2xl p-5 hover:border-emerald-500 transition-all shadow-lg relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
+                        <span class="font-bold text-emerald-300">Lucro Líquido Real</span>
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                            <i data-lucide="wallet" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-emerald-400" id="card-lucro-liquido">R$ 0,00</div>
+                    <div class="text-[11px] text-slate-400 mt-2">
+                        Fat. (-) CMV peças (-) taxas & frete
+                    </div>
+                </div>
+
+                <!-- Ticket Médio -->
+                <div class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 hover:border-emerald-500/40 transition-all shadow-lg">
+                    <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
+                        <span class="font-bold">Ticket Médio</span>
+                        <div class="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                            <i data-lucide="receipt" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-white" id="card-ticket-medio">R$ 0,00</div>
+                    <div class="text-[11px] text-slate-400 mt-2">
+                        Média gasta por cliente c/ personalizações
+                    </div>
+                </div>
+
+                <!-- Taxa de Conversão & Abandonos -->
+                <div class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 hover:border-emerald-500/40 transition-all shadow-lg">
+                    <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
+                        <span class="font-bold">Conversão / Carrinhos</span>
+                        <div class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-amber-400" id="card-taxa-conversao">0%</div>
+                    <div class="text-[11px] text-slate-400 mt-2" id="card-abandonos-info">
+                        0 gerados vs. 0 pagos
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. OPERAÇÃO DIÁRIA (O QUE FAZER AGORA) -->
+        <section class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-white/10">
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                        <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-400"></i>
+                        2. Operação Diária (O que fazer agora)
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Contadores clicáveis de ação rápida para evitar atrasos e erros de estampa</p>
+                </div>
+                <span class="text-[11px] text-slate-500 font-mono">Clique no card para filtrar a tabela</span>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <!-- Aguardando Separação -->
+                <button onclick="filtrarOperacao('pago_separacao')" id="op-btn-separacao" class="text-left p-4 rounded-xl bg-black/40 border border-white/10 hover:border-emerald-500/50 transition-all group">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-bold text-slate-400 group-hover:text-emerald-400">Pedidos Pagos</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-white" id="op-count-separacao">0</div>
+                    <p class="text-[11px] text-slate-500 mt-1">Aguardando separação/embalagem</p>
+                </button>
+
+                <!-- Fila de Personalização (Silk/Estampa) -->
+                <button onclick="filtrarOperacao('personalizacao')" id="op-btn-personalizacao" class="text-left p-4 rounded-xl bg-black/40 border border-white/10 hover:border-purple-500/50 transition-all group">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-bold text-slate-400 group-hover:text-purple-400">Fila Personalização</span>
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-purple-400" id="op-count-personalizacao">0</div>
+                    <p class="text-[11px] text-slate-500 mt-1">Camisas que precisam de Silk/Patch</p>
+                </button>
+
+                <!-- Aguardando Fornecedor -->
+                <button onclick="filtrarOperacao('encomenda')" id="op-btn-encomenda" class="text-left p-4 rounded-xl bg-black/40 border border-white/10 hover:border-amber-500/50 transition-all group">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-bold text-slate-400 group-hover:text-amber-400">P/ Pedir ao Fornecedor</span>
+                        <i data-lucide="truck" class="w-3.5 h-3.5 text-amber-400"></i>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-amber-400" id="op-count-fornecedor">0</div>
+                    <p class="text-[11px] text-slate-500 mt-1">Itens vendidos sem estoque físico</p>
+                </button>
+
+                <!-- Trocas e Devoluções -->
+                <button onclick="filtrarOperacao('troca')" id="op-btn-troca" class="text-left p-4 rounded-xl bg-black/40 border border-white/10 hover:border-red-500/50 transition-all group">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-bold text-slate-400 group-hover:text-red-400">Trocas / Devoluções</span>
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-red-400"></i>
+                    </div>
+                    <div class="text-2xl font-heading font-black text-red-400" id="op-count-trocas">0</div>
+                    <p class="text-[11px] text-slate-500 mt-1">Logística reversa pendente</p>
+                </button>
+            </div>
+        </section>
+
+        <!-- TABELA OPERACIONAL DE PEDIDOS & PERSONALIZAÇÃO -->
+        <section class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <h3 class="text-sm font-bold text-white font-heading" id="titulo-tabela-operacao">Todos os Pedidos Recentes</h3>
+                    <span id="badge-filtro-operacao" class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] text-slate-300">Geral</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="carregarDadosExemplo()" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-bold transition-all">
+                        + Gerar Pedidos de Teste
+                    </button>
+                    <button onclick="filtrarOperacao('todos')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-slate-300">
+                        Ver Todos
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-white/10 text-slate-400 font-bold">
+                            <th class="py-3 px-3">Pedido</th>
+                            <th class="py-3 px-3">Cliente / Contato</th>
+                            <th class="py-3 px-3">Produto & Grade</th>
+                            <th class="py-3 px-3">Silk / Personalização</th>
+                            <th class="py-3 px-3">Total / Pgto</th>
+                            <th class="py-3 px-3">Canal / Sócio</th>
+                            <th class="py-3 px-3">Status Operacional</th>
+                            <th class="py-3 px-3 text-right">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-pedidos-body" class="divide-y divide-white/5 text-slate-300">
+                        <!-- Inserido dinamicamente via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. INTELIGÊNCIA DE ESTOQUE E GRADE -->
+        <section class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 shadow-xl space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/10">
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                        <i data-lucide="boxes" class="w-4 h-4 text-emerald-400"></i>
+                        3. Inteligência de Estoque e Grade
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Evite o erro de ficar apenas com tamanhos extremos e monitore capital imobilizado</p>
+                </div>
+
+                <!-- VALOR TOTAL IMOBILIZADO -->
+                <div class="flex items-center gap-3 bg-black/40 border border-white/10 px-4 py-2 rounded-xl">
+                    <div>
+                        <div class="text-[10px] text-slate-400 uppercase font-bold">Imobilizado (Custo)</div>
+                        <div class="text-sm font-heading font-bold text-white" id="imobilizado-custo">R$ 5.760,00</div>
+                    </div>
+                    <div class="h-6 w-[1px] bg-white/10"></div>
+                    <div>
+                        <div class="text-[10px] text-slate-400 uppercase font-bold">Imobilizado (Venda)</div>
+                        <div class="text-sm font-heading font-bold text-emerald-400" id="imobilizado-venda">R$ 11.520,00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALERTA DE RUPTURA (M e G < 3 unids) -->
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
+                <div class="flex items-center gap-2 text-amber-400 font-bold text-xs mb-2">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                    <span>ALERTA DE RUPTURA DE GRADE (Tamanhos Campeões M e G abaixo de 3 unidades)</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="grade-ruptura-list">
+                    <!-- Dinâmico -->
+                </div>
+            </div>
+
+            <!-- CURVA ABC (Mais Vendidas vs Camisas Encalhadas / Sem Saída) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Top Camisas Mais Vendidas -->
+                <div class="bg-black/30 border border-white/10 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                            <i data-lucide="flame" class="w-4 h-4"></i>
+                            Camisas Mais Vendidas (O que mais está saindo)
+                        </h4>
+                        <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Alta Demanda</span>
+                    </div>
+                    <ul class="space-y-2 text-xs" id="lista-top-vendidas">
+                        <!-- Dinâmico -->
+                    </ul>
+                </div>
+
+                <!-- Camisas Menos Vendidas / Sem Saída -->
+                <div class="bg-black/30 border border-white/10 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-xs font-bold text-red-400 flex items-center gap-1.5">
+                            <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                            Camisas Menos Vendidas (O que NÃO está saindo)
+                        </h4>
+                        <span class="text-[10px] text-red-400 font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">Ação: Queima / Não Comprar</span>
+                    </div>
+                    <ul class="space-y-2 text-xs" id="lista-estoque-parado">
+                        <!-- Dinâmico -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CONTROLE DE SOCIEDADE E CANAIS DE VENDA -->
+        <section class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 shadow-xl space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/10">
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                        <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+                        4. Controle de Sociedade (Os 3 Amigos) & Canais
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Transparência total: retenção do caixa para reposição de peças e divisão igualitária</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-[10px] text-slate-400 block">Retenção de Caixa p/ Compras:</span>
+                    <span class="text-xs font-bold text-emerald-400 font-mono">20% do Lucro Líquido</span>
+                </div>
+            </div>
+
+            <!-- CARDS DOS 3 SÓCIOS + CAIXA DA EMPRESA -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Sócio 1 -->
+                <div class="bg-black/40 border border-white/10 rounded-xl p-4 hover:border-emerald-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Sócio 1 (Davi)
+                        </span>
+                        <span class="text-[10px] bg-white/5 px-2 py-0.5 rounded text-slate-400 font-mono">Cupom: DAVI10</span>
+                    </div>
+                    <div class="text-lg font-heading font-black text-emerald-400" id="lucro-socio-1">R$ 0,00</div>
+                    <div class="text-[11px] text-slate-400 mt-1 flex justify-between">
+                        <span>Vendas indicadas:</span>
+                        <strong class="text-white" id="vendas-socio-1">0</strong>
+                    </div>
+                </div>
+
+                <!-- Sócio 2 -->
+                <div class="bg-black/40 border border-white/10 rounded-xl p-4 hover:border-emerald-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-blue-400"></span> Sócio 2 (Ruan)
+                        </span>
+                        <span class="text-[10px] bg-white/5 px-2 py-0.5 rounded text-slate-400 font-mono">Cupom: RUAN10</span>
+                    </div>
+                    <div class="text-lg font-heading font-black text-blue-400" id="lucro-socio-2">R$ 0,00</div>
+                    <div class="text-[11px] text-slate-400 mt-1 flex justify-between">
+                        <span>Vendas indicadas:</span>
+                        <strong class="text-white" id="vendas-socio-2">0</strong>
+                    </div>
+                </div>
+
+                <!-- Sócio 3 -->
+                <div class="bg-black/40 border border-white/10 rounded-xl p-4 hover:border-emerald-500/40 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-purple-400"></span> Sócio 3 (Guilherme)
+                        </span>
+                        <span class="text-[10px] bg-white/5 px-2 py-0.5 rounded text-slate-400 font-mono">Cupom: GUILHERME10</span>
+                    </div>
+                    <div class="text-lg font-heading font-black text-purple-400" id="lucro-socio-3">R$ 0,00</div>
+                    <div class="text-[11px] text-slate-400 mt-1 flex justify-between">
+                        <span>Vendas indicadas:</span>
+                        <strong class="text-white" id="vendas-socio-3">0</strong>
+                    </div>
+                </div>
+
+                <!-- Caixa da Empresa (Reinvestimento) -->
+                <div class="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                            <i data-lucide="landmark" class="w-3.5 h-3.5"></i> Caixa FutStore
+                        </span>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">20% Reserva</span>
+                    </div>
+                    <div class="text-lg font-heading font-black text-emerald-400" id="caixa-reserva">R$ 0,00</div>
+                    <div class="text-[11px] text-slate-400 mt-1">
+                        Blindado p/ compra de estoque e embalagens
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORIGEM DAS VENDAS (CANAIS) -->
+            <div class="bg-black/30 border border-white/10 rounded-xl p-4">
+                <h4 class="text-xs font-bold text-slate-300 mb-3 flex items-center gap-2">
+                    <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    Origem das Vendas por Canal
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                    <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                        <span class="text-[11px] text-slate-400 block">Site Direto (Pix)</span>
+                        <span class="text-base font-heading font-bold text-white" id="canal-site">R$ 0,00</span>
+                    </div>
+                    <div class="p-3 bg-emerald-500/5 rounded-lg border border-emerald-500/20">
+                        <span class="text-[11px] text-emerald-400 block">WhatsApp Oficial</span>
+                        <span class="text-base font-heading font-bold text-white" id="canal-whatsapp">R$ 0,00</span>
+                    </div>
+                    <div class="p-3 bg-pink-500/5 rounded-lg border border-pink-500/20">
+                        <span class="text-[11px] text-pink-400 block">Instagram / Stories</span>
+                        <span class="text-base font-heading font-bold text-white" id="canal-instagram">R$ 0,00</span>
+                    </div>
+                    <div class="p-3 bg-cyan-500/5 rounded-lg border border-cyan-500/20">
+                        <span class="text-[11px] text-cyan-400 block">TikTok / Shorts</span>
+                        <span class="text-base font-heading font-bold text-white" id="canal-tiktok">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. GRÁFICOS VISUAIS (LEITURA RÁPIDA) -->
+        <section class="space-y-4">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
+                5. Gráficos Visuais (Leitura Rápida)
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <!-- Gráfico de Linha: Vendas por Dia -->
+                <div class="lg:col-span-2 bg-[#0D121F] border border-white/10 rounded-2xl p-5 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white font-heading">Vendas Diárias (Mês Atual vs. Mês Anterior)</h3>
+                            <span class="text-xs text-slate-400">Acompanhamento do ritmo de crescimento da loja</span>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-400 flex items-center gap-1 font-mono">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Mês Atual
+                        </span>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="chart-vendas-dia"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Rosca: Formas de Pagamento -->
+                <div class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-white font-heading mb-1">Formas de Pagamento</h3>
+                        <span class="text-xs text-slate-400">Pix (dinheiro na hora) vs. Cartão de Crédito</span>
+                    </div>
+                    <div class="h-52 my-auto">
+                        <canvas id="chart-pagamentos"></canvas>
+                    </div>
+                    <div class="pt-3 border-t border-white/10 flex justify-around text-xs text-slate-300 font-mono">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Pix: 70%</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Cartão: 30%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de Barras: Vendas por Tamanho da Grade -->
+            <div class="bg-[#0D121F] border border-white/10 rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-bold text-white font-heading">Distribuição de Vendas por Tamanho (Grade)</h3>
+                        <span class="text-xs text-slate-400">Guia exato para as próximas compras com o fornecedor</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono">P / M / G / GG / XGG</span>
+                </div>
+                <div class="h-56">
+                    <canvas id="chart-tamanhos"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE DETALHES DO PEDIDO -->
+    <div id="modal-pedido-detalhe" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="max-w-lg w-full bg-[#0D121F] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <h3 class="text-base font-bold text-white font-heading flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i> Detalhes do Pedido <span id="modal-ped-codigo" class="text-emerald-400 font-mono"></span>
+                </h3>
+                <button onclick="fecharModalDetalhe()" class="p-1 rounded-lg text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="modal-ped-conteudo" class="space-y-3 text-xs">
+                <!-- Conteúdo detalhado via JS -->
+            </div>
+
+            <div class="flex gap-2 pt-3 border-t border-white/10">
+                <button id="modal-btn-whatsapp" target="_blank" class="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i> Chamar no WhatsApp
+                </button>
+                <button onclick="fecharModalDetalhe()" class="px-4 py-2.5 bg-white/10 hover:bg-white/15 text-white text-xs font-bold rounded-xl">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE INTELIGÊNCIA DO PAINEL -->
+    <script>
+        // CONFIGURAÇÕES GLOBAIS
+        const SENHA_PIN_CORRETA = "2026";
+        let periodoSelecionado = 'mes'; // 'hoje', '7d', 'mes'
+        let filtroOperacaoAtual = 'todos';
+
+        // DADOS MOCK / BASE DE PEDIDOS
+        const PEDIDOS_PADRAO = [
+            {
+                id: "FUT-1045",
+                cliente: "Rodrigo Almeida",
+                whatsapp: "5571999881122",
+                cpf: "045.892.115-08",
+                data: "2026-11-19 10:14",
+                periodo: "hoje",
+                item: "Camisa Bahia Titular 24/25",
+                tamanho: "G",
+                personalizado: true,
+                estampa: { nome: "CAULY", numero: "8", patch: "Brasileirão 2026" },
+                valor: 179.90,
+                cmv: 75.00,
+                taxas: 4.50,
+                pagamento: "Pix",
+                status: "Pago (Aguardando Separação)",
+                tipo_op: "pago_separacao",
+                canal: "WhatsApp",
+                socio: "Davi",
+                cupom: "DAVI10"
+            },
+            {
+                id: "FUT-1044",
+                cliente: "Marcos Vinicius",
+                whatsapp: "5571988776655",
+                cpf: "332.114.998-45",
+                data: "2026-11-19 09:30",
+                periodo: "hoje",
+                item: "Camisa Real Madrid Home 24/25",
+                tamanho: "M",
+                personalizado: true,
+                estampa: { nome: "VINI JR", numero: "7", patch: "Champions 15" },
+                valor: 189.90,
+                cmv: 80.00,
+                taxas: 4.80,
+                pagamento: "Pix",
+                status: "Fila de Personalização (Silk)",
+                tipo_op: "personalizacao",
+                canal: "Instagram",
+                socio: "Ruan",
+                cupom: "RUAN10"
+            },
+            {
+                id: "FUT-1043",
+                cliente: "Gabriel Sampaio",
+                whatsapp: "5511977665544",
+                cpf: "441.229.871-33",
+                data: "2026-11-18 16:40",
+                periodo: "7d",
+                item: "Camisa Man City Home 24/25",
+                tamanho: "G",
+                personalizado: false,
+                estampa: null,
+                valor: 159.90,
+                cmv: 70.00,
+                taxas: 7.20,
+                pagamento: "Cartão",
+                status: "Aguardando Fornecedor",
+                tipo_op: "encomenda",
+                canal: "Site",
+                socio: "Guilherme",
+                cupom: "GUILHERME10"
+            },
+            {
+                id: "FUT-1042",
+                cliente: "Felipe Santana",
+                whatsapp: "5571981234455",
+                cpf: "554.887.321-00",
+                data: "2026-11-17 14:10",
+                periodo: "7d",
+                item: "Camisa Flamengo Rubro-Negra 24/25",
+                tamanho: "M",
+                personalizado: true,
+                estampa: { nome: "ARRASCAETA", numero: "14", patch: "Libertadores" },
+                valor: 179.90,
+                cmv: 75.00,
+                taxas: 4.50,
+                pagamento: "Pix",
+                status: "Fila de Personalização (Silk)",
+                tipo_op: "personalizacao",
+                canal: "WhatsApp",
+                socio: "Davi",
+                cupom: "DAVI10"
+            },
+            {
+                id: "FUT-1041",
+                cliente: "Lucas Nogueira",
+                whatsapp: "5521998877112",
+                cpf: "998.441.230-11",
+                data: "2026-11-15 11:05",
+                periodo: "7d",
+                item: "Regata NBA Lakers #23 LeBron",
+                tamanho: "GG",
+                personalizado: false,
+                estampa: null,
+                valor: 159.90,
+                cmv: 70.00,
+                taxas: 7.50,
+                pagamento: "Cartão",
+                status: "Troca Solicitada (Tamanho)",
+                tipo_op: "troca",
+                canal: "TikTok",
+                socio: "Ruan",
+                cupom: "RUAN10"
+            },
+            {
+                id: "FUT-1040",
+                cliente: "Bruno Cavalcante",
+                whatsapp: "5571991122334",
+                cpf: "112.556.774-99",
+                data: "2026-11-10 18:22",
+                periodo: "mes",
+                item: "Camisa Barcelona Retrô 1999",
+                tamanho: "M",
+                personalizado: true,
+                estampa: { nome: "RIVALDO", numero: "10", patch: "Centenário" },
+                valor: 199.90,
+                cmv: 85.00,
+                taxas: 5.00,
+                pagamento: "Pix",
+                status: "Entregue ao Cliente",
+                tipo_op: "concluido",
+                canal: "Site",
+                socio: "Guilherme",
+                cupom: "GUILHERME10"
+            },
+            {
+                id: "FUT-1039",
+                cliente: "Tiago Cerqueira",
+                whatsapp: "5571987654321",
+                cpf: "778.334.991-02",
+                data: "2026-11-08 13:15",
+                periodo: "mes",
+                item: "Camisa Seleção Brasileira 2026",
+                tamanho: "G",
+                personalizado: true,
+                estampa: { nome: "RODRYGO", numero: "10", patch: "Copa América" },
+                valor: 189.90,
+                cmv: 80.00,
+                taxas: 4.80,
+                pagamento: "Pix",
+                status: "Entregue ao Cliente",
+                tipo_op: "concluido",
+                canal: "WhatsApp",
+                socio: "Davi",
+                cupom: "DAVI10"
+            },
+            {
+                id: "FUT-1038",
+                cliente: "André Lima",
+                whatsapp: "5571994433221",
+                cpf: "665.221.009-88",
+                data: "2026-11-04 15:50",
+                periodo: "mes",
+                item: "Camisa Vitória Rubro-Negra 24/25",
+                tamanho: "G",
+                personalizado: false,
+                estampa: null,
+                valor: 149.90,
+                cmv: 65.00,
+                taxas: 6.80,
+                pagamento: "Cartão",
+                status: "Entregue ao Cliente",
+                tipo_op: "concluido",
+                canal: "Instagram",
+                socio: "Davi",
+                cupom: "DAVI10"
+            }
+        ];
+
+        let pedidos = [];
+        let chartVendasDiaInstance = null;
+        let chartPagamentosInstance = null;
+        let chartTamanhosInstance = null;
+
+        // INICIALIZAÇÃO
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            const salvo = localStorage.getItem("futstore_painel_auth");
+            if (salvo === "true") {
+                liberarAcesso();
+            }
+        });
+
+        function verificarPin() {
+            const input = document.getElementById("input-pin").value;
+            if (input === SENHA_PIN_CORRETA) {
+                localStorage.setItem("futstore_painel_auth", "true");
+                liberarAcesso();
+            } else {
+                document.getElementById("pin-erro").classList.remove("hidden");
+                document.getElementById("input-pin").value = "";
+            }
+        }
+
+        function sairPainel() {
+            localStorage.removeItem("futstore_painel_auth");
+            location.reload();
+        }
+
+        function liberarAcesso() {
+            document.getElementById("pin-screen").classList.add("hidden");
+            document.getElementById("painel-content").classList.remove("hidden");
+            carregarPedidos();
+            renderizarTodoPainel();
+        }
+
+        function carregarPedidos() {
+            const local = localStorage.getItem("futstore_pedidos_admin");
+            if (local) {
+                try {
+                    pedidos = JSON.parse(local);
+                } catch(e) {
+                    pedidos = [...PEDIDOS_PADRAO];
+                }
+            } else {
+                pedidos = [...PEDIDOS_PADRAO];
+                salvarPedidos();
+            }
+        }
+
+        function salvarPedidos() {
+            localStorage.setItem("futstore_pedidos_admin", JSON.stringify(pedidos));
+        }
+
+        function carregarDadosExemplo() {
+            pedidos = [...PEDIDOS_PADRAO];
+            salvarPedidos();
+            renderizarTodoPainel();
+            alert("Pedidos de teste recarregados com sucesso!");
+        }
+
+        // CONTROLE DE PERÍODO (Hoje, 7 Dias, Este Mês)
+        function setPeriodo(periodo) {
+            periodoSelecionado = periodo;
+            ['hoje', '7d', 'mes'].forEach(p => {
+                const btn = document.getElementById(`btn-periodo-${p}`);
+                if (p === periodo) {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-emerald-500 text-black shadow-md";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+                }
+            });
+
+            const labels = { 'hoje': 'Hoje', '7d': 'Últimos 7 dias', 'mes': 'Este Mês' };
+            document.getElementById("label-periodo-atual").innerText = labels[periodo];
+            renderizarTodoPainel();
+        }
+
+        // FILTRO DA ESTEIRA OPERACIONAL
+        function filtrarOperacao(tipo) {
+            filtroOperacaoAtual = tipo;
+            const titulos = {
+                'todos': 'Todos os Pedidos Recentes',
+                'pago_separacao': 'Pedidos Pagos (Aguardando Separação / Envio)',
+                'personalizacao': 'Fila de Personalização (Silk / Patch / Estampa)',
+                'encomenda': 'Aguardando Fornecedor (Itens sob encomenda)',
+                'troca': 'Trocas e Devoluções Pendentes'
+            };
+            document.getElementById("titulo-tabela-operacao").innerText = titulos[tipo] || 'Pedidos Filtrados';
+            document.getElementById("badge-filtro-operacao").innerText = tipo.toUpperCase();
+            renderizarTabela();
+        }
+
+        // RENDERIZAÇÃO GERAL
+        function renderizarTodoPainel() {
+            renderizarIndicadoresFinanceiros();
+            renderizarContadoresOperacao();
+            renderizarTabela();
+            renderizarEstoqueGrade();
+            renderizarSociedadeCanais();
+            renderizarGraficos();
+            lucide.createIcons();
+        }
+
+        // 1. INDICADORES FINANCEIROS
+        function renderizarIndicadoresFinanceiros() {
+            const filtrados = pedidos.filter(p => {
+                if (periodoSelecionado === 'hoje') return p.periodo === 'hoje';
+                if (periodoSelecionado === '7d') return p.periodo === 'hoje' || p.periodo === '7d';
+                return true;
+            });
+
+            const faturamento = filtrados.reduce((acc, p) => acc + p.valor, 0);
+            const cmvTotal = filtrados.reduce((acc, p) => acc + p.cmv, 0);
+            const taxasTotal = filtrados.reduce((acc, p) => acc + p.taxas, 0);
+            const freteEmbalagem = filtrados.length * 8.00; // R$ 8 por envio estimado
+
+            const lucroLiquido = faturamento - cmvTotal - taxasTotal - freteEmbalagem;
+            const ticketMedio = filtrados.length > 0 ? (faturamento / filtrados.length) : 0;
+
+            // Simulação realista de carrinhos gerados vs pagos
+            const carrinhosGerados = Math.round(filtrados.length * 1.6) + 3;
+            const taxaConversao = carrinhosGerados > 0 ? Math.round((filtrados.length / carrinhosGerados) * 100) : 0;
+
+            document.getElementById("card-faturamento").innerText = `R$ ${faturamento.toFixed(2).replace('.', ',')}`;
+            document.getElementById("card-pedidos-count").innerText = `${filtrados.length} pedidos confirmados`;
+
+            document.getElementById("card-lucro-liquido").innerText = `R$ ${Math.max(0, lucroLiquido).toFixed(2).replace('.', ',')}`;
+            document.getElementById("card-ticket-medio").innerText = `R$ ${ticketMedio.toFixed(2).replace('.', ',')}`;
+            document.getElementById("card-taxa-conversao").innerText = `${taxaConversao}%`;
+            document.getElementById("card-abandonos-info").innerText = `${filtrados.length} pagos / ${carrinhosGerados} carrinhos iniciados`;
+        }
+
+        // 2. CONTADORES DA OPERAÇÃO DIÁRIA
+        function renderizarContadoresOperacao() {
+            const cSeparacao = pedidos.filter(p => p.tipo_op === 'pago_separacao').length;
+            const cPersonalizacao = pedidos.filter(p => p.tipo_op === 'personalizacao').length;
+            const cFornecedor = pedidos.filter(p => p.tipo_op === 'encomenda').length;
+            const cTrocas = pedidos.filter(p => p.tipo_op === 'troca').length;
+
+            document.getElementById("op-count-separacao").innerText = cSeparacao;
+            document.getElementById("op-count-personalizacao").innerText = cPersonalizacao;
+            document.getElementById("op-count-fornecedor").innerText = cFornecedor;
+            document.getElementById("op-count-trocas").innerText = cTrocas;
+        }
+
+        // TABELA DE PEDIDOS
+        function renderizarTabela() {
+            const tbody = document.getElementById("tabela-pedidos-body");
+            tbody.innerHTML = "";
+
+            let lista = pedidos;
+            if (filtroOperacaoAtual !== 'todos') {
+                lista = pedidos.filter(p => p.tipo_op === filtroOperacaoAtual);
+            }
+
+            if (lista.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-500">Nenhum pedido encontrado nesta categoria.</td></tr>`;
+                return;
+            }
+
+            lista.forEach(p => {
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-white/[0.02] transition-colors";
+
+                let statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-slate-300">${p.status}</span>`;
+                if (p.tipo_op === 'pago_separacao') statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pago (Separar)</span>`;
+                if (p.tipo_op === 'personalizacao') statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">Fila Silk</span>`;
+                if (p.tipo_op === 'encomenda') statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Aguard. Fornecedor</span>`;
+                if (p.tipo_op === 'troca') statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/10 text-red-400 border border-red-500/20">Troca Pendente</span>`;
+                if (p.tipo_op === 'concluido') statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">Entregue</span>`;
+
+                const estampaInfo = p.personalizado ? `
+                    <div class="text-[11px] font-mono text-purple-300">
+                        <strong>Nome:</strong> ${p.estampa.nome} | <strong>Nº:</strong> ${p.estampa.numero}
+                        <br><span class="text-[10px] text-slate-400">${p.estampa.patch}</span>
+                    </div>
+                ` : `<span class="text-slate-500 italic text-[11px]">Sem silk (lisa)</span>`;
+
+                tr.innerHTML = `
+                    <td class="py-3 px-3 font-mono font-bold text-white">${p.id}</td>
+                    <td class="py-3 px-3">
+                        <div class="font-bold text-white">${p.cliente}</div>
+                        <div class="text-[10px] text-slate-400 font-mono">${p.cpf || 'CPF ñ informado'}</div>
+                    </td>
+                    <td class="py-3 px-3">
+                        <div class="text-white">${p.item}</div>
+                        <span class="px-1.5 py-0.5 bg-white/10 rounded font-mono text-[10px] font-bold">Tam: ${p.tamanho}</span>
+                    </td>
+                    <td class="py-3 px-3">${estampaInfo}</td>
+                    <td class="py-3 px-3 font-mono">
+                        <strong class="text-white">R$ ${p.valor.toFixed(2).replace('.', ',')}</strong>
+                        <div class="text-[10px] text-slate-400">${p.pagamento}</div>
+                    </td>
+                    <td class="py-3 px-3">
+                        <div class="text-white font-semibold">${p.canal}</div>
+                        <span class="text-[10px] text-emerald-400 font-mono">${p.socio} (${p.cupom})</span>
+                    </td>
+                    <td class="py-3 px-3">${statusBadge}</td>
+                    <td class="py-3 px-3 text-right">
+                        <button onclick="abrirDetalhePedido('${p.id}')" class="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500 hover:text-black text-slate-300 transition-all" title="Ver Detalhes e WhatsApp">
+                            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        // 3. INTELIGÊNCIA DE ESTOQUE E GRADE
+        function renderizarEstoqueGrade() {
+            // Itens com ruptura de grade (M e G < 3 unids)
+            const rupturas = [
+                { item: "Camisa Bahia 24/25", m: 1, g: 2, motivo: "M e G esgotando rápido no Salvador Shopping" },
+                { item: "Real Madrid Home", m: 0, g: 1, motivo: "M ZERADO após final da Champions" },
+                { item: "Flamengo Rubro-Negra", m: 2, g: 0, motivo: "G ZERADO. Repor no pedido semanal" }
+            ];
+
+            const divRuptura = document.getElementById("grade-ruptura-list");
+            divRuptura.innerHTML = "";
+            rupturas.forEach(r => {
+                const card = document.createElement("div");
+                card.className = "p-3 rounded-lg bg-black/40 border border-amber-500/20 text-xs";
+                card.innerHTML = `
+                    <div class="font-bold text-white flex justify-between">
+                        <span>${r.item}</span>
+                        <span class="text-amber-400 font-mono">M: ${r.m} un | G: ${r.g} un</span>
+                    </div>
+                    <div class="text-[11px] text-amber-200/80 mt-1">${r.motivo}</div>
+                `;
+                divRuptura.appendChild(card);
+            });
+
+            // Top Camisas Mais Vendidas (O que mais está saindo)
+            const top5 = [
+                { rank: 1, nome: "Camisa Bahia Titular 24/25", vendas: 42, pct: "94% saída", status: "Alta Demanda 🔥" },
+                { rank: 2, nome: "Camisa Real Madrid Home 24/25", vendas: 31, pct: "88% saída", status: "Quase Esgotado" },
+                { rank: 3, nome: "Camisa Flamengo Rubro-Negra", vendas: 27, pct: "81% saída", status: "Alta Procura" },
+                { rank: 4, nome: "Seleção Brasileira Canarinho", vendas: 22, pct: "70% saída", status: "Constante" },
+                { rank: 5, nome: "Regata Lakers #23 LeBron", vendas: 18, pct: "62% saída", status: "Boa Saída" }
+            ];
+
+            const ulTop = document.getElementById("lista-top-vendidas");
+            ulTop.innerHTML = "";
+            top5.forEach(t => {
+                ulTop.innerHTML += `
+                    <li class="flex items-center justify-between p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/15">
+                        <div>
+                            <span class="font-semibold text-white"><span class="text-emerald-400 font-bold mr-1.5">#${t.rank}</span> ${t.nome}</span>
+                            <span class="block text-[10px] text-emerald-400/80 font-mono">${t.status}</span>
+                        </div>
+                        <span class="font-mono text-emerald-400 font-bold text-right">${t.vendas} unids <span class="text-slate-500 font-normal text-[10px] block">${t.pct}</span></span>
+                    </li>
+                `;
+            });
+
+            // Camisas Menos Vendidas (O que NÃO está saindo)
+            const encalhadas = [
+                { nome: "Camisa Juventus Away 23/24", parado_dias: 58, vendas: 1, motivo: "Pouca busca na região. Recomenda-se promoção de queima.", saldo: 6 },
+                { nome: "Camisa Inter de Milão 3ª 23/24", parado_dias: 51, vendas: 0, motivo: "Sem saída há quase 2 meses. Fazer combo 3x2.", saldo: 5 },
+                { nome: "Regata Boston Celtics Retrô", parado_dias: 47, vendas: 2, motivo: "Sobraram apenas tamanhos PP e EGG.", saldo: 4 },
+                { nome: "Camisa Borussia Dortmund Away", parado_dias: 44, vendas: 1, motivo: "Não comprar no próximo pedido de fornecedor.", saldo: 3 }
+            ];
+
+            const ulParado = document.getElementById("lista-estoque-parado");
+            ulParado.innerHTML = "";
+            encalhadas.forEach(e => {
+                ulParado.innerHTML += `
+                    <li class="flex items-center justify-between p-2.5 rounded-lg bg-red-500/5 border border-red-500/15">
+                        <div class="pr-2">
+                            <div class="font-semibold text-white">${e.nome}</div>
+                            <span class="text-[10px] text-red-400 font-mono">${e.parado_dias} dias sem venda • Apenas ${e.vendas} venda(s) • Saldo: ${e.saldo} unids</span>
+                            <div class="text-[10px] text-slate-400 italic mt-0.5">${e.motivo}</div>
+                        </div>
+                        <span class="px-2 py-1 rounded bg-red-500/20 text-red-300 font-bold text-[10px] whitespace-nowrap">Queima 30% OFF</span>
+                    </li>
+                `;
+            });
+        }
+
+        // 4. CONTROLE DE SOCIEDADE & CANAIS
+        function renderizarSociedadeCanais() {
+            // Filtrar vendas do mês para cálculo dos 3 sócios
+            const totalFaturamento = pedidos.reduce((acc, p) => acc + p.valor, 0);
+            const totalCmv = pedidos.reduce((acc, p) => acc + p.cmv, 0);
+            const totalTaxas = pedidos.reduce((acc, p) => acc + p.taxas, 0);
+            const fretes = pedidos.length * 8.00;
+            const lucroLiquidoGeral = Math.max(0, totalFaturamento - totalCmv - totalTaxas - fretes);
+
+            // 20% guardado para reserva de caixa para compra de novas peças
+            const caixaReserva = lucroLiquidoGeral * 0.20;
+            const lucroDistribuivel = lucroLiquidoGeral * 0.80;
+            const parteCadaSocio = lucroDistribuivel / 3;
+
+            document.getElementById("caixa-reserva").innerText = `R$ ${caixaReserva.toFixed(2).replace('.', ',')}`;
+
+            // Vendas por sócio
+            const vSocio1 = pedidos.filter(p => p.socio === 'Davi').length;
+            const vSocio2 = pedidos.filter(p => p.socio === 'Ruan').length;
+            const vSocio3 = pedidos.filter(p => p.socio === 'Guilherme').length;
+
+            document.getElementById("lucro-socio-1").innerText = `R$ ${parteCadaSocio.toFixed(2).replace('.', ',')}`;
+            document.getElementById("vendas-socio-1").innerText = `${vSocio1} vendas`;
+
+            document.getElementById("lucro-socio-2").innerText = `R$ ${parteCadaSocio.toFixed(2).replace('.', ',')}`;
+            document.getElementById("vendas-socio-2").innerText = `${vSocio2} vendas`;
+
+            document.getElementById("lucro-socio-3").innerText = `R$ ${parteCadaSocio.toFixed(2).replace('.', ',')}`;
+            document.getElementById("vendas-socio-3").innerText = `${vSocio3} vendas`;
+
+            // Origem dos canais
+            const fSite = pedidos.filter(p => p.canal === 'Site').reduce((acc, p) => acc + p.valor, 0);
+            const fWhats = pedidos.filter(p => p.canal === 'WhatsApp').reduce((acc, p) => acc + p.valor, 0);
+            const fInsta = pedidos.filter(p => p.canal === 'Instagram').reduce((acc, p) => acc + p.valor, 0);
+            const fTikTok = pedidos.filter(p => p.canal === 'TikTok').reduce((acc, p) => acc + p.valor, 0);
+
+            document.getElementById("canal-site").innerText = `R$ ${fSite.toFixed(2).replace('.', ',')}`;
+            document.getElementById("canal-whatsapp").innerText = `R$ ${fWhats.toFixed(2).replace('.', ',')}`;
+            document.getElementById("canal-instagram").innerText = `R$ ${fInsta.toFixed(2).replace('.', ',')}`;
+            document.getElementById("canal-tiktok").innerText = `R$ ${fTikTok.toFixed(2).replace('.', ',')}`;
+        }
+
+        // 5. GRÁFICOS VISUAIS (Chart.js)
+        function renderizarGraficos() {
+            // Gráfico 1: Vendas por Dia (Mês atual vs Mês anterior)
+            const ctxDia = document.getElementById('chart-vendas-dia');
+            if (ctxDia) {
+                if (chartVendasDiaInstance) chartVendasDiaInstance.destroy();
+                chartVendasDiaInstance = new Chart(ctxDia, {
+                    type: 'line',
+                    data: {
+                        labels: ['01', '03', '06', '09', '12', '15', '18', '21', '24', '27', '30'],
+                        datasets: [
+                            {
+                                label: 'Mês Atual (R$)',
+                                data: [320, 480, 690, 850, 1100, 1450, 1890, 2150, 2600, 3100, 3680],
+                                borderColor: '#10B981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                fill: true,
+                                tension: 0.35,
+                                borderWidth: 3,
+                                pointBackgroundColor: '#10B981'
+                            },
+                            {
+                                label: 'Mês Anterior (R$)',
+                                data: [210, 350, 420, 610, 780, 950, 1180, 1390, 1620, 1900, 2250],
+                                borderColor: '#475569',
+                                borderDash: [5, 5],
+                                fill: false,
+                                tension: 0.35,
+                                borderWidth: 2,
+                                pointRadius: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8', font: { family: 'Space Grotesk' } } },
+                            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8', callback: v => `R$ ${v}` } }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico 2: Formas de Pagamento (Pix vs Cartão)
+            const ctxPgto = document.getElementById('chart-pagamentos');
+            if (ctxPgto) {
+                if (chartPagamentosInstance) chartPagamentosInstance.destroy();
+                chartPagamentosInstance = new Chart(ctxPgto, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Pix (À Vista)', 'Cartão de Crédito'],
+                        datasets: [{
+                            data: [70, 30],
+                            backgroundColor: ['#10B981', '#3B82F6'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        cutout: '72%'
+                    }
+                });
+            }
+
+            // Gráfico 3: Vendas por Tamanho (Grade)
+            const ctxTam = document.getElementById('chart-tamanhos');
+            if (ctxTam) {
+                if (chartTamanhosInstance) chartTamanhosInstance.destroy();
+                chartTamanhosInstance = new Chart(ctxTam, {
+                    type: 'bar',
+                    data: {
+                        labels: ['P', 'M (Campeão)', 'G (Campeão)', 'GG', 'XGG'],
+                        datasets: [{
+                            label: '% de Saída',
+                            data: [12, 36, 38, 10, 4],
+                            backgroundColor: [
+                                'rgba(255, 255, 255, 0.2)',
+                                '#10B981',
+                                '#10B981',
+                                'rgba(255, 255, 255, 0.2)',
+                                'rgba(255, 255, 255, 0.1)'
+                            ],
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#CBD5E1', font: { weight: 'bold' } } },
+                            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8', callback: v => `${v}%` } }
+                        }
+                    }
+                });
+            }
+        }
+
+        // BARRA DE BUSCA GLOBAL RÁPIDA
+        function buscarGlobal() {
+            const query = document.getElementById("input-busca-global").value.trim().toLowerCase();
+            const container = document.getElementById("resultado-busca-global");
+
+            if (!query) {
+                container.classList.add("hidden");
+                container.innerHTML = "";
+                return;
+            }
+
+            const achados = pedidos.filter(p => {
+                const idMatch = p.id.toLowerCase().includes(query);
+                const nomeMatch = p.cliente.toLowerCase().includes(query);
+                const cpfMatch = p.cpf && p.cpf.toLowerCase().includes(query);
+                const whatsMatch = p.whatsapp && p.whatsapp.includes(query);
+                return idMatch || nomeMatch || cpfMatch || whatsMatch;
+            });
+
+            container.classList.remove("hidden");
+            if (achados.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400">Nenhum cliente ou pedido encontrado com o termo "<span class="text-white">${query}</span>".</p>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2">
+                    ${achados.length} resultado(s) encontrado(s):
+                </div>
+                <div class="space-y-2">
+                    ${achados.map(p => {
+                        const msgWhats = encodeURIComponent(`Olá, ${p.cliente}! Aqui é o Davi da FutStore sobre seu pedido ${p.id} (${p.item}). Como posso te ajudar hoje?`);
+                        const linkWhats = `https://wa.me/${p.whatsapp}?text=${msgWhats}`;
+                        return `
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-black/40 border border-white/10 hover:border-emerald-500/40">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono font-bold text-emerald-400 text-xs">${p.id}</span>
+                                        <span class="text-white font-bold text-xs">${p.cliente}</span>
+                                        <span class="text-[10px] text-slate-400 font-mono">${p.cpf || ''}</span>
+                                    </div>
+                                    <div class="text-[11px] text-slate-300 mt-0.5">
+                                        ${p.item} (Tam: ${p.tamanho}) • <strong>R$ ${p.valor.toFixed(2).replace('.', ',')}</strong> • <span class="text-emerald-400">${p.status}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <a href="${linkWhats}" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold flex items-center gap-1.5 transition-all">
+                                        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Chamar no Whats
+                                    </a>
+                                    <button onclick="abrirDetalhePedido('${p.id}')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold">
+                                        Ver Ficha
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function resetarBusca() {
+            document.getElementById("input-busca-global").value = "";
+            buscarGlobal();
+        }
+
+        // MODAL DE DETALHES DO PEDIDO
+        function abrirDetalhePedido(id) {
+            const p = pedidos.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById("modal-ped-codigo").innerText = p.id;
+            const conteudo = document.getElementById("modal-ped-conteudo");
+
+            const estampaTxt = p.personalizado ? `
+                <div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-200">
+                    <div class="font-bold mb-1">Personalização Solicitada (Silk):</div>
+                    <div>Nome nas Costas: <strong>${p.estampa.nome}</strong></div>
+                    <div>Número: <strong>${p.estampa.numero}</strong></div>
+                    <div>Patch: <strong>${p.estampa.patch}</strong></div>
+                </div>
+            ` : `<div class="p-2.5 rounded-lg bg-white/5 text-slate-400">Camisa sem personalização (lisa).</div>`;
+
+            conteudo.innerHTML = `
+                <div class="grid grid-cols-2 gap-2 p-3 rounded-lg bg-black/40 border border-white/5">
+                    <div><span class="text-slate-400 block">Cliente:</span><strong class="text-white">${p.cliente}</strong></div>
+                    <div><span class="text-slate-400 block">WhatsApp:</span><strong class="text-emerald-400">${p.whatsapp}</strong></div>
+                    <div><span class="text-slate-400 block">CPF:</span><strong class="text-white font-mono">${p.cpf || 'Não informado'}</strong></div>
+                    <div><span class="text-slate-400 block">Data/Hora:</span><strong class="text-white">${p.data}</strong></div>
+                </div>
+
+                <div class="p-3 rounded-lg bg-black/40 border border-white/5 space-y-1">
+                    <div class="text-white font-bold">${p.item}</div>
+                    <div class="text-slate-300">Tamanho Selecionado: <strong>${p.tamanho}</strong></div>
+                    <div class="text-slate-300">Valor Total: <strong class="text-emerald-400">R$ ${p.valor.toFixed(2).replace('.', ',')}</strong> via ${p.pagamento}</div>
+                    <div class="text-slate-400 text-[11px]">Canal: ${p.canal} | Cupom / Sócio: ${p.socio} (${p.cupom})</div>
+                </div>
+
+                ${estampaTxt}
+
+                <div class="p-3 rounded-lg bg-white/5 border border-white/5 flex items-center justify-between">
+                    <span class="text-slate-300">Status Operacional:</span>
+                    <span class="font-bold text-emerald-400">${p.status}</span>
+                </div>
+            `;
+
+            const msgWhats = encodeURIComponent(`Olá, ${p.cliente}! Aqui é a equipe da FutStore. Seu pedido ${p.id} (${p.item}) está sendo processado com carinho!`);
+            const btnWhats = document.getElementById("modal-btn-whatsapp");
+            btnWhats.onclick = () => window.open(`https://wa.me/${p.whatsapp}?text=${msgWhats}`, '_blank');
+
+            document.getElementById("modal-pedido-detalhe").classList.remove("hidden");
+            lucide.createIcons();
+        }
+
+        function fecharModalDetalhe() {
+            document.getElementById("modal-pedido-detalhe").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

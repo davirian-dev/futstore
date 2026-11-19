@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutStore Brasil • Mantos Oficiais, Retrô & Streetwear Esportivo</title>
+    <meta name="description" content="Camisas de time padrão Tailandesa 1:1 com personalização de nome e número. Brasileirão, Europeus, Seleções, Retrô e Corta-Ventos com frete grátis e Pix rápido.">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        pitch: {
+                            900: '#07090E',
+                            800: '#0C111C',
+                            700: '#141C2E'
+                        },
+                        brand: {
+                            gold: '#D4AF37',
+                            emerald: '#10B981'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #07090E; }
+        .font-heading { font-family: 'Space Grotesk', sans-serif; }
+        .glass-header { background: rgba(7, 9, 14, 0.92); backdrop-filter: blur(14px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 4px; }
+        .escudo-card { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        .escudo-card:hover { transform: translateY(-4px); }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.45); }
+        }
+        .pulse-glow { animation: pulseGlow 2.5s infinite; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
+
+    <!-- 1. BARRA DE AVISOS (TOP BAR COM GATILHOS DE CONVERSÃO) -->
+    <div id="top-announcement-bar" class="bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 text-black py-2 px-4 text-[11px] sm:text-xs font-black tracking-wide flex items-center justify-between shadow-md">
+        <div class="mx-auto flex items-center gap-3 sm:gap-6 flex-wrap justify-center">
+            <span class="flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> <strong>SUPER COMBO:</strong> Compre 2 Camisas e Ganhe a 3ª!
+            </span>
+            <span class="hidden sm:inline opacity-40">|</span>
+            <span class="flex items-center gap-1.5">
+                <i data-lucide="truck" class="w-3.5 h-3.5"></i> Frete Grátis acima de R$ 299
+            </span>
+            <span class="hidden md:inline opacity-40">|</span>
+            <span class="hidden md:flex items-center gap-1.5">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i> 5% OFF no Pix + Personalização Grátis Hoje
+            </span>
+        </div>
+    </div>
+
+    <!-- 2. CABEÇALHO FIXO COM BUSCA INTELIGENTE & ÍCONES DE AÇÃO -->
+    <header id="main-header" class="sticky top-0 z-40 glass-header border-b border-white/10 px-3 sm:px-8 py-3 transition-all">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-6">
+            
+            <!-- Logo da Loja -->
+            <a href="#" onclick="filtrarCategoria('todos'); return false;" class="flex items-center gap-2.5 shrink-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-black flex items-center justify-center font-heading font-black text-xl shadow-lg shadow-emerald-500/25">
+                    F
+                </div>
+                <div>
+                    <span class="font-heading font-black text-lg sm:text-2xl text-white tracking-wider">FUT<span class="text-emerald-400">STORE</span></span>
+                    <span class="block text-[8px] sm:text-[9px] text-slate-400 -mt-1 font-mono tracking-widest uppercase">Mantos 1:1 Premium</span>
+                </div>
+            </a>
+
+            <!-- Barra de Busca Inteligente (Dropdown em tempo real) -->
+            <div class="relative flex-1 max-w-md hidden md:block">
+                <div class="relative">
+                    <input type="text" id="input-busca-header" oninput="buscarProdutos(this.value)" placeholder="Buscar time, jogador ou ano (Ex: Flamengo, Real, 2002)..." class="w-full pl-10 pr-9 py-2.5 rounded-full bg-pitch-800 border border-white/10 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 transition-all font-sans">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <button onclick="limparBusca()" id="btn-limpar-busca" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+                <!-- Dropdown de resultados imediatos -->
+                <div id="dropdown-busca" class="hidden absolute left-0 right-0 top-full mt-2 bg-pitch-800 border border-white/10 rounded-2xl shadow-2xl p-2 z-50 max-h-80 overflow-y-auto custom-scrollbar"></div>
+            </div>
+
+            <!-- Ícones de Ação (Rastrear, Minha Conta, Carrinho) -->
+            <div class="flex items-center gap-2 sm:gap-4 shrink-0">
+                <!-- Rastrear Pedido (Destaque) -->
+                <button onclick="abrirModalRastreio()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/30 text-xs font-bold text-slate-300 hover:text-emerald-400 transition-all">
+                    <i data-lucide="package" class="w-4 h-4 text-emerald-400"></i>
+                    <span class="hidden sm:inline">Rastrear Pedido</span>
+                </button>
+
+                <!-- Minha Conta / Login -->
+                <button onclick="abrirModalMinhaConta()" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-slate-300 flex items-center gap-1.5" title="Minha Conta">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    <span class="hidden lg:inline">Minha Conta</span>
+                </button>
+
+                <!-- Carrinho com Contador -->
+                <button onclick="abrirModalCarrinho()" class="relative p-2.5 sm:px-3.5 sm:py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all">
+                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Carrinho</span>
+                    <span id="badge-carrinho" class="w-5 h-5 rounded-full bg-black text-emerald-400 text-[10px] font-black flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu de Categorias Direto (Barra de Navegação) -->
+        <nav class="max-w-7xl mx-auto mt-2.5 pt-2 border-t border-white/5 flex items-center gap-2 sm:gap-6 overflow-x-auto custom-scrollbar text-xs font-bold text-slate-300 whitespace-nowrap">
+            <button onclick="filtrarCategoria('todos')" id="nav-cat-todos" class="nav-btn text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 py-1">
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i> Todos os Mantos
+            </button>
+            <button onclick="filtrarCategoria('brasileiros')" id="nav-cat-brasileiros" class="nav-btn hover:text-emerald-400 flex items-center gap-1 py-1">
+                🇧🇷 Brasileirão (Série A/B)
+            </button>
+            <button onclick="filtrarCategoria('europeus')" id="nav-cat-europeus" class="nav-btn hover:text-emerald-400 flex items-center gap-1 py-1">
+                🏆 Times Europeus
+            </button>
+            <button onclick="filtrarCategoria('selecoes')" id="nav-cat-selecoes" class="nav-btn hover:text-emerald-400 flex items-center gap-1 py-1">
+                ⭐ Seleções
+            </button>
+            <button onclick="filtrarCategoria('retro')" id="nav-cat-retro" class="nav-btn hover:text-emerald-400 flex items-center gap-1 py-1 text-amber-400">
+                ⏳ Retrô / Históricas
+            </button>
+            <button onclick="filtrarCategoria('infantil_feminina')" id="nav-cat-infantil_feminina" class="nav-btn hover:text-emerald-400 flex items-center gap-1 py-1">
+                🌸 Infantil / Feminina
+            </button>
+            <button onclick="filtrarCategoria('agasalhos')" id="nav-cat-agasalhos" class="nav-btn hover:text-emerald-400 flex items-center gap-1 py-1 text-teal-400">
+                🧥 Agasalhos & Corta-vento
+            </button>
+        </nav>
+
+        <!-- Busca Mobile -->
+        <div class="mt-2.5 md:hidden">
+            <div class="relative">
+                <input type="text" oninput="buscarProdutos(this.value)" placeholder="Buscar time, camisa ou ano..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-pitch-800 border border-white/10 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL (HOME) -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 py-6 space-y-10">
+
+        <!-- 2.1 BANNER PRINCIPAL ROTATIVO COM COMBO 2+1 -->
+        <section class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-gradient-to-r from-pitch-800 via-pitch-700 to-pitch-800">
+            <div class="relative min-h-[320px] sm:min-h-[400px] flex items-center p-6 sm:p-12 z-10">
+                <div class="max-w-xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-black uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        Temporada 2026/27 • Lançamento Oficial
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-heading font-black text-white leading-tight">
+                        COMPRE 2 MANTOS E <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">GANHE O 3º GRÁTIS!</span>
+                    </h1>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Padrão Tailandesa 1:1 Idêntica à Oficial. Escudo bordado em alta definição, caimento atlético e personalização grátis no Pix.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <a href="#vitrine" class="px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs sm:text-sm tracking-wide shadow-xl shadow-emerald-500/25 transition-all flex items-center gap-2">
+                            Aproveitar Promoção <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <button onclick="abrirModalInstitucional('como-comprar')" class="px-4 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs transition-all">
+                            Como Funciona o Combo?
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Glow decorativo -->
+            <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-emerald-500/10 to-transparent pointer-events-none"></div>
+        </section>
+
+        <!-- 2.2 SELOS DE CONFIANÇA (LOGO ABAIXO DO BANNER) -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                    <i data-lucide="truck" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-xs font-bold text-white">Envio c/ Rastreio</div>
+                    <div class="text-[11px] text-slate-400">Código em tempo real</div>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                    <i data-lucide="zap" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-xs font-bold text-white">Pix ou até 12x</div>
+                    <div class="text-[11px] text-slate-400">5% OFF à vista no Pix</div>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
+                    <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-xs font-bold text-white">Padrão Tailandês 1:1</div>
+                    <div class="text-[11px] text-slate-400">Qualidade de jogador</div>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-xs font-bold text-white">Suporte no WhatsApp</div>
+                    <div class="text-[11px] text-slate-400">Tire dúvidas de medidas</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2.3 NAVEGAÇÃO POR ESCUDOS (CARROSSEL CLICÁVEL DOS MAIS BUSCADOS) -->
+        <section class="space-y-3">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                    <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> Escolha pelo seu Time de Coração
+                </h3>
+                <span class="text-[11px] text-slate-500 hidden sm:inline">Clique no escudo para ver o manto</span>
+            </div>
+
+            <div class="flex items-center gap-4 overflow-x-auto pb-2 custom-scrollbar">
+                <!-- Bahia -->
+                <button onclick="buscarPorTime('Bahia')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-blue-500 group-hover:bg-blue-950/20 flex items-center justify-center p-2 text-2xl font-black text-blue-400 font-heading">
+                        🔵🔴
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">Bahia</span>
+                </button>
+
+                <!-- Vitória -->
+                <button onclick="buscarPorTime('Vitória')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-red-500 group-hover:bg-red-950/20 flex items-center justify-center p-2 text-2xl font-black text-red-500 font-heading">
+                        🔴⚫
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">Vitória</span>
+                </button>
+
+                <!-- Flamengo -->
+                <button onclick="buscarPorTime('Flamengo')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-red-600 group-hover:bg-red-950/20 flex items-center justify-center p-2 text-2xl font-black text-red-600 font-heading">
+                        CRF
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">Flamengo</span>
+                </button>
+
+                <!-- Real Madrid -->
+                <button onclick="buscarPorTime('Real Madrid')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-amber-400 group-hover:bg-amber-950/20 flex items-center justify-center p-2 text-2xl font-black text-amber-400 font-heading">
+                        👑
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">Real Madrid</span>
+                </button>
+
+                <!-- Barcelona -->
+                <button onclick="buscarPorTime('Barcelona')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-blue-400 group-hover:bg-blue-950/20 flex items-center justify-center p-2 text-2xl font-black text-blue-400 font-heading">
+                        FCB
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">Barcelona</span>
+                </button>
+
+                <!-- Brasil -->
+                <button onclick="buscarPorTime('Brasil')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-emerald-400 group-hover:bg-emerald-950/20 flex items-center justify-center p-2 text-2xl font-black text-emerald-400 font-heading">
+                        CBF
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">Seleção</span>
+                </button>
+
+                <!-- Man City -->
+                <button onclick="buscarPorTime('Manchester City')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-cyan-400 group-hover:bg-cyan-950/20 flex items-center justify-center p-2 text-2xl font-black text-cyan-400 font-heading">
+                        MCFC
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">Man City</span>
+                </button>
+
+                <!-- PSG -->
+                <button onclick="buscarPorTime('PSG')" class="escudo-card flex flex-col items-center gap-2 shrink-0 group">
+                    <div class="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-pitch-800 border border-white/10 group-hover:border-blue-500 group-hover:bg-blue-950/20 flex items-center justify-center p-2 text-2xl font-black text-blue-400 font-heading">
+                        PSG
+                    </div>
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-white">PSG</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 2.4 VITRINE PRINCIPAL ("MAIS VENDIDAS" E FILTROS) -->
+        <section id="vitrine" class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-heading font-black text-white" id="titulo-vitrine">Mantos Mais Vendidos</h2>
+                    <p class="text-xs text-slate-400">Padrão Tailandês 1:1 idêntico ao jogador, com envio seguro e garantia.</p>
+                </div>
+                <div class="text-xs text-slate-400 font-mono" id="contador-produtos-vitrine">
+                    Carregando catálogo...
+                </div>
+            </div>
+
+            <!-- Grid de Produtos -->
+            <div id="grid-produtos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+                <!-- Renderizado dinamicamente via app.js -->
+            </div>
+        </section>
+
+        <!-- 2.5 SEÇÃO "CLIENTES VESTINDO O MANTO" (PROVA SOCIAL COM FOTOS REAIS E PRINTS) -->
+        <section class="space-y-4 pt-4 border-t border-white/10">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 text-xs font-black text-emerald-400 uppercase tracking-wider">
+                        <i data-lucide="instagram" class="w-4 h-4"></i> @FutStoreOficial • Prova Social
+                    </div>
+                    <h3 class="text-xl font-heading font-black text-white">Clientes Vestindo o Manto</h3>
+                </div>
+                <span class="text-xs text-slate-400">+1.240 mantos entregues em Salvador e todo Brasil</span>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                <!-- Depoimento 1 -->
+                <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">RA</div>
+                        <div>
+                            <div class="text-xs font-bold text-white">Rodrigo Alves</div>
+                            <div class="text-[10px] text-slate-400">Salvador - BA</div>
+                        </div>
+                    </div>
+                    <div class="text-amber-400 text-xs flex">★★★★★</div>
+                    <p class="text-xs text-slate-300 leading-relaxed italic">
+                        "Peguei a camisa do Bahia com silk do Cauly. O acabamento do bordado e do tecido me impressionou, padrão de loja oficial!"
+                    </p>
+                    <span class="text-[10px] text-emerald-400 font-mono block">Manto: Bahia Titular 24/25</span>
+                </div>
+
+                <!-- Depoimento 2 -->
+                <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">MV</div>
+                        <div>
+                            <div class="text-xs font-bold text-white">Marcos Vinicius</div>
+                            <div class="text-[10px] text-slate-400">Feira de Santana - BA</div>
+                        </div>
+                    </div>
+                    <div class="text-amber-400 text-xs flex">★★★★★</div>
+                    <p class="text-xs text-slate-300 leading-relaxed italic">
+                        "Comprei no combo de 2 e a 3ª saiu de graça. Chegou em 12 dias bem embalado com as etiquetas da Champions League!"
+                    </p>
+                    <span class="text-[10px] text-emerald-400 font-mono block">Manto: Real Madrid Home</span>
+                </div>
+
+                <!-- Depoimento 3 -->
+                <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xs">GF</div>
+                        <div>
+                            <div class="text-xs font-bold text-white">Gabriel Ferreira</div>
+                            <div class="text-[10px] text-slate-400">São Paulo - SP</div>
+                        </div>
+                    </div>
+                    <div class="text-amber-400 text-xs flex">★★★★★</div>
+                    <p class="text-xs text-slate-300 leading-relaxed italic">
+                        "A retrô do Barcelona de 1999 do Rivaldo é um espetáculo. Costuras perfeitas e o Pix de 1 clique é muito rápido."
+                    </p>
+                    <span class="text-[10px] text-emerald-400 font-mono block">Manto: Barça Centenário 1999</span>
+                </div>
+
+                <!-- Depoimento 4 -->
+                <div class="p-4 rounded-2xl bg-pitch-800 border border-white/5 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs">TC</div>
+                        <div>
+                            <div class="text-xs font-bold text-white">Tiago Castro</div>
+                            <div class="text-[10px] text-slate-400">Lauro de Freitas - BA</div>
+                        </div>
+                    </div>
+                    <div class="text-amber-400 text-xs flex">★★★★★</div>
+                    <p class="text-xs text-slate-300 leading-relaxed italic">
+                        "Atendimento excelente no WhatsApp, tiraram minhas dúvidas de tamanho M vs G. A camisa do Leão serviu como uma luva!"
+                    </p>
+                    <span class="text-[10px] text-emerald-400 font-mono block">Manto: Vitória Rubro-Negra</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 3. PÁGINA / MODAL DO PRODUTO (ONDE A VENDA ACONTECE) -->
+    <div id="modal-produto" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <div class="max-w-4xl w-full bg-pitch-800 border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative my-auto">
+            
+            <!-- Botão Fechar -->
+            <button onclick="fecharModalProduto()" class="absolute right-4 top-4 z-20 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition-all border border-white/10">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Galeria de Fotos com Zoom e Detalhes -->
+                <div class="p-6 bg-pitch-900/60 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/10">
+                    <div class="relative rounded-2xl overflow-hidden border border-white/10 bg-black/40 group aspect-square">
+                        <img id="modal-prod-img" src="" alt="Manto" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <span id="modal-prod-tag" class="absolute top-3 left-3 px-3 py-1 rounded-full bg-emerald-500 text-black text-xs font-extrabold uppercase tracking-wider"></span>
+                        <div class="absolute bottom-2 right-2 px-2 py-1 bg-black/70 rounded-md text-[10px] text-slate-300 font-mono flex items-center gap-1">
+                            <i data-lucide="zoom-in" class="w-3 h-3"></i> Passe o mouse para zoom
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-2 text-[11px] text-slate-400 justify-center">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Padrão Tailandês 1:1 Oficial (Frente, Costas e Escudo Bordado)
+                    </div>
+                </div>
+
+                <!-- Painel de Customização & Compra -->
+                <div class="p-6 sm:p-8 space-y-4 max-h-[85vh] overflow-y-auto custom-scrollbar">
+                    
+                    <!-- Título Claro + Preço Ancorado -->
+                    <div>
+                        <h2 id="modal-prod-nome" class="text-xl sm:text-2xl font-heading font-black text-white leading-tight"></h2>
+                        <div class="flex items-baseline gap-2 mt-2">
+                            <span id="modal-prod-preco" class="text-2xl sm:text-3xl font-heading font-black text-emerald-400"></span>
+                            <span id="modal-prod-preco-antigo" class="text-sm line-through text-slate-500 font-mono"></span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">Economia Real</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-1">
+                            Ou até <strong>12x de R$ 15,90</strong> no cartão • <strong>5% de desconto</strong> no Pix
+                        </p>
+                    </div>
+
+                    <!-- Seletor de Versão (Torcedor vs Jogador) -->
+                    <div class="space-y-1.5 pt-2 border-t border-white/10">
+                        <div class="flex justify-between items-center text-xs">
+                            <label class="font-bold text-white flex items-center gap-1.5">
+                                <i data-lucide="shirt" class="w-3.5 h-3.5 text-emerald-400"></i> Escolha a Versão:
+                            </label>
+                            <span class="text-[11px] text-slate-400" id="label-versao-info">Torcedor (Escudo Bordado)</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" onclick="selecionarVersao('torcedor')" id="btn-versao-torcedor" class="p-2.5 rounded-xl border border-emerald-500 bg-emerald-500/10 text-emerald-400 text-xs font-bold text-left transition-all">
+                                <div class="font-black">Versão Torcedor</div>
+                                <div class="text-[10px] text-slate-400 font-normal">Corte tradicional confortável</div>
+                            </button>
+                            <button type="button" onclick="selecionarVersao('jogador')" id="btn-versao-jogador" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-slate-300 text-xs font-bold text-left hover:border-white/30 transition-all">
+                                <div class="font-black">Versão Jogador (+R$ 20)</div>
+                                <div class="text-[10px] text-slate-400 font-normal">Mais justa, escudo termocolante</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Seletor de Tamanho + Guia de Medidas Visível -->
+                    <div class="space-y-1.5 pt-2 border-t border-white/10">
+                        <div class="flex justify-between items-center text-xs">
+                            <label class="font-bold text-white">Tamanho da Grade:</label>
+                            <button type="button" onclick="abrirModalInstitucional('guia-medidas')" class="text-emerald-400 hover:text-emerald-300 font-bold underline flex items-center gap-1 text-[11px]">
+                                <i data-lucide="ruler" class="w-3.5 h-3.5"></i> Tabela de Medidas (cm)
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-5 gap-2" id="seletor-tamanhos">
+                            <button type="button" onclick="selecionarTamanho('P')" class="tam-btn py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 font-bold text-xs">P</button>
+                            <button type="button" onclick="selecionarTamanho('M')" class="tam-btn py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 font-bold text-xs">M</button>
+                            <button type="button" onclick="selecionarTamanho('G')" class="tam-btn py-2.5 rounded-xl bg-emerald-500 text-black border border-emerald-400 font-black text-xs shadow-md">G</button>
+                            <button type="button" onclick="selecionarTamanho('GG')" class="tam-btn py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 font-bold text-xs">GG</button>
+                            <button type="button" onclick="selecionarTamanho('EGG')" class="tam-btn py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 font-bold text-xs">EGG</button>
+                        </div>
+                    </div>
+
+                    <!-- Bloco de Personalização (Nome, Número e Patches) -->
+                    <div class="space-y-3 pt-2 border-t border-white/10 bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i> Personalizar Nome & Número:
+                            </span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="check-personalizar" onchange="togglePersonalizacao()" class="sr-only peer">
+                                <div class="w-9 h-5 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600"></div>
+                            </label>
+                        </div>
+
+                        <div id="campos-personalizacao" class="hidden space-y-2.5 pt-1">
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="col-span-2">
+                                    <label class="text-[10px] font-bold text-slate-400 block mb-1">Nome na Camisa (Máx 12 letras):</label>
+                                    <input type="text" id="input-personaliza-nome" maxlength="12" placeholder="Ex: VINI JR" class="w-full uppercase px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-slate-400 block mb-1">Número (0 a 99):</label>
+                                    <input type="number" id="input-personaliza-num" min="0" max="99" placeholder="7" class="w-full px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+                                </div>
+                            </div>
+
+                            <!-- Seletor de Patches -->
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 block mb-1">Adicionar Patch Oficial da Manga:</label>
+                                <select id="select-patch" class="w-full px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-xs text-slate-200 focus:outline-none focus:border-purple-500">
+                                    <option value="sem_patch">Sem Patch na Manga</option>
+                                    <option value="champions">Patch Champions League (+R$ 15,00)</option>
+                                    <option value="libertadores">Patch Conmebol Libertadores (+R$ 15,00)</option>
+                                    <option value="brasileirao">Patch Brasileirão 2026 (+R$ 15,00)</option>
+                                    <option value="copa_mundo">Patch Copa do Mundo (+R$ 15,00)</option>
+                                </select>
+                            </div>
+                            <p class="text-[10px] text-purple-300 italic">*Camisas personalizadas com silk são confeccionadas sob medida.</p>
+                        </div>
+                    </div>
+
+                    <!-- Aviso de Prazo Transparente + Cálculo de CEP -->
+                    <div class="pt-2 border-t border-white/10 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-400">Disponibilidade:</span>
+                            <span id="modal-prod-prazo-tag" class="font-bold text-emerald-400">Pronta Entrega (Envio em 24h)</span>
+                        </div>
+
+                        <!-- Calculadora de Frete Rápida -->
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="input-calc-cep" maxlength="9" placeholder="Digite seu CEP..." class="flex-1 px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-mono">
+                            <button type="button" onclick="calcularFreteRapido()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white">
+                                Calcular Frete
+                            </button>
+                        </div>
+                        <div id="resultado-frete-rapido" class="hidden text-[11px] p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"></div>
+                    </div>
+
+                    <!-- Botão de Compra Grande e Contrastante -->
+                    <div class="pt-3 space-y-2">
+                        <button onclick="adicionarAoCarrinhoModal()" class="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-sm tracking-wide shadow-xl shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 pulse-glow">
+                            <i data-lucide="shopping-bag" class="w-5 h-5"></i> ADICIONAR AO CARRINHO • COMPRAR AGORA
+                        </button>
+                        <button onclick="comprarViaWhatsAppDireto()" class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-emerald-500/10 border border-white/10 text-emerald-400 font-bold text-xs flex items-center justify-center gap-2 transition-all">
+                            <i data-lucide="message-circle" class="w-4 h-4"></i> Tirar Dúvidas ou Comprar no WhatsApp
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 4. CARRINHO E FINALIZAÇÃO (CHECKOUT INTELIGENTE) -->
+    <div id="modal-carrinho" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-end">
+        <div class="w-full max-w-md h-full bg-pitch-800 border-l border-white/10 p-5 sm:p-6 flex flex-col justify-between shadow-2xl relative">
+            
+            <!-- Topo do Carrinho -->
+            <div>
+                <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 text-emerald-400"></i>
+                        <h3 class="text-base font-heading font-black text-white">Seu Carrinho de Mantos</h3>
+                    </div>
+                    <button onclick="fecharModalCarrinho()" class="p-1 rounded-lg text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Barra de Frete Grátis Inteligente -->
+                <div class="my-3 p-3 rounded-xl bg-pitch-900 border border-white/10 space-y-1.5">
+                    <div class="flex justify-between text-[11px] font-bold">
+                        <span id="txt-progresso-frete" class="text-emerald-400">Falta R$ 149,10 para Frete Grátis!</span>
+                        <span class="text-slate-400">Meta: R$ 299</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                        <div id="barra-progresso-frete" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500" style="width: 50%;"></div>
+                    </div>
+                </div>
+
+                <!-- Lista de Itens do Carrinho com Resumo Visual -->
+                <div id="carrinho-itens-lista" class="space-y-3 max-h-[45vh] overflow-y-auto custom-scrollbar pr-1">
+                    <!-- Itens renderizados via JS -->
+                </div>
+            </div>
+
+            <!-- Rodapé do Carrinho com Cupom e Checkout -->
+            <div class="pt-4 border-t border-white/10 space-y-3">
+                <!-- Campo de Cupom -->
+                <div class="flex gap-2">
+                    <input type="text" id="input-cupom-carrinho" placeholder="Cupom (DAVI10, RUAN10, GUILHERME10...)" class="flex-1 uppercase px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-mono">
+                    <button onclick="aplicarCupomCarrinho()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white">
+                        Aplicar
+                    </button>
+                </div>
+                <div id="msg-cupom-status" class="hidden text-[11px] font-semibold"></div>
+
+                <!-- Totais -->
+                <div class="space-y-1 text-xs">
+                    <div class="flex justify-between text-slate-400">
+                        <span>Subtotal:</span>
+                        <span id="carrinho-subtotal">R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400">
+                        <span>Desconto no Pix (5%):</span>
+                        <span id="carrinho-desconto" class="text-emerald-400">- R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between text-base font-bold text-white pt-1 border-t border-white/5">
+                        <span>Total no Pix:</span>
+                        <span id="carrinho-total" class="text-emerald-400 font-heading font-black text-xl">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <!-- Botões de Finalização -->
+                <button onclick="iniciarCheckoutDireto('pix')" class="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs tracking-wide shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4"></i> PAGAR AGORA NO PIX (QR CODE INSTANTÂNEO)
+                </button>
+                <button onclick="iniciarCheckoutDireto('whatsapp')" class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-emerald-500/10 border border-white/10 text-emerald-400 font-bold text-xs flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i> Finalizar pelo WhatsApp c/ Atendente
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL DE CHECKOUT PIX INTELIGENTE COM DADOS DO CLIENTE (SEM CADASTRO CHATO) -->
+    <div id="modal-checkout-pix" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="max-w-md w-full bg-pitch-800 border border-emerald-500/30 rounded-3xl p-5 sm:p-6 shadow-2xl space-y-4 relative my-auto">
+            <button onclick="fecharModalPix()" class="absolute right-4 top-4 p-1 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- ETAPA 1: DADOS ESSENCIAIS DE ENVIO (NOME, WHATSAPP, CPF, ENDEREÇO) -->
+            <div id="checkout-etapa-dados" class="space-y-3.5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
+                        <i data-lucide="truck" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-heading font-black text-white">Dados de Envio & Rastreio</h3>
+                        <p class="text-[11px] text-slate-400">Preenchimento rápido em 30 segundos (sem senha)</p>
+                    </div>
+                </div>
+
+                <form onsubmit="event.preventDefault(); gerarPixComDados();" class="space-y-2.5 text-xs text-left">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 mb-1">Nome Completo *</label>
+                        <input type="text" id="chk-nome" required placeholder="Ex: Rodrigo Almeida" class="w-full px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 mb-1">WhatsApp / Celular *</label>
+                            <input type="tel" id="chk-whatsapp" required placeholder="(71) 99999-8888" class="w-full px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 mb-1">CPF (p/ Nota/Envio) *</label>
+                            <input type="text" id="chk-cpf" required placeholder="000.000.000-00" class="w-full px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-mono">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="col-span-1">
+                            <label class="block text-[11px] font-bold text-slate-300 mb-1">CEP *</label>
+                            <input type="text" id="chk-cep" required maxlength="9" placeholder="40000-000" class="w-full px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-mono">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-300 mb-1">Endereço (Rua e Nº) *</label>
+                            <input type="text" id="chk-endereco" required placeholder="Rua das Palmeiras, 120, Apto 302" class="w-full px-3 py-2 rounded-xl bg-pitch-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400">
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all">
+                            <i data-lucide="qr-code" class="w-4 h-4"></i> IR PARA PAGAMENTO PIX (<span id="btn-total-pix-dados">R$ 0,00</span>)
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ETAPA 2: QR CODE PIX GERADO E SALVO NO PAINEL -->
+            <div id="checkout-etapa-qrcode" class="hidden space-y-4 text-center">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto">
+                    <i data-lucide="qr-code" class="w-5 h-5"></i>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-heading font-black text-white">QR Code Pix Instantâneo</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Pedido <span id="chk-codigo-gerado" class="text-emerald-400 font-mono font-bold">#FUT-1046</span> registrado no painel!</p>
+                </div>
+
+                <div class="p-3 bg-white rounded-2xl w-48 h-48 mx-auto flex items-center justify-center shadow-inner">
+                    <img id="pix-qrcode-img" src="" alt="QR Code Pix" class="w-full h-full object-contain">
+                </div>
+
+                <div class="text-xs text-slate-300">
+                    Valor com 5% de Desconto: <strong class="text-emerald-400 text-base font-heading font-black" id="pix-valor-final">R$ 0,00</strong>
+                </div>
+
+                <div class="space-y-2">
+                    <button onclick="copiarPixChave()" id="btn-copiar-pix" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all">
+                        <i data-lucide="copy" class="w-4 h-4"></i> Copiar Código Pix (Copia e Cola)
+                    </button>
+                    <p id="pix-copiado-sucesso" class="hidden text-xs text-emerald-400 font-bold">Código copiado! Abra o aplicativo do seu banco para colar.</p>
+                </div>
+
+                <div class="pt-2 border-t border-white/10 flex gap-2">
+                    <button onclick="enviarComprovanteZap()" class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-emerald-500/10 border border-white/10 text-emerald-400 font-bold text-xs flex items-center justify-center gap-1.5 transition-all">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i> Enviar Comprovante no WhatsApp
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 5. TELA / MODAL DE RASTREAMENTO DE PEDIDOS -->
+    <div id="modal-rastreamento" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-pitch-800 border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4 relative">
+            <button onclick="fecharModalRastreio()" class="absolute right-4 top-4 p-1 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                    <i data-lucide="truck" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-heading font-black text-white">Rastreamento de Pedido</h3>
+                    <p class="text-xs text-slate-400">Consulte o status do seu pacote em tempo real</p>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-300">Digite seu Código de Rastreio ou CPF:</label>
+                <div class="flex gap-2">
+                    <input type="text" id="input-rastreio-codigo" placeholder="Ex: BR849204123AA ou CPF" class="flex-1 px-3 py-2.5 rounded-xl bg-pitch-900 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 font-mono">
+                    <button onclick="rastrearEncomenda()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">
+                        Buscar
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultado-rastreio" class="hidden p-4 rounded-2xl bg-pitch-900 border border-white/10 space-y-2 text-xs">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAIS INSTITUCIONAIS (POLÍTICAS CLARAS, GUIA DE MEDIDAS, FAQ, QUEM SOMOS) -->
+    <div id="modal-institucional" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="max-w-2xl w-full bg-pitch-800 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4 relative max-h-[85vh] overflow-y-auto custom-scrollbar">
+            <button onclick="fecharModalInstitucional()" class="absolute right-4 top-4 p-1.5 rounded-lg text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div id="institucional-conteudo"></div>
+        </div>
+    </div>
+
+    <!-- 5. RODAPÉ E ATENDIMENTO COMPLETO -->
+    <footer class="bg-pitch-900 border-t border-white/10 pt-12 pb-8 px-4 sm:px-8 mt-16 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+            <!-- Sobre a Loja -->
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-500 text-black flex items-center justify-center font-heading font-black text-lg">F</div>
+                    <span class="font-heading font-black text-xl text-white">FUT<span class="text-emerald-400">STORE</span></span>
+                </div>
+                <p class="leading-relaxed">
+                    Especialistas em mantos de futebol e streetwear esportivo padrão Tailandês 1:1. Fundada por amigos apaixonados por futebol para entregar a melhor qualidade com preço justo.
+                </p>
+                <div class="pt-2 flex items-center gap-3 text-slate-300">
+                    <a href="https://instagram.com" target="_blank" class="p-2 rounded-lg bg-white/5 hover:bg-emerald-500/20 hover:text-emerald-400 transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                    <a href="https://wa.me/5571988887777" target="_blank" class="p-2 rounded-lg bg-white/5 hover:bg-emerald-500/20 hover:text-emerald-400 transition-colors"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
+                    <a href="https://tiktok.com" target="_blank" class="p-2 rounded-lg bg-white/5 hover:bg-emerald-500/20 hover:text-emerald-400 transition-colors"><i data-lucide="video" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+
+            <!-- Institucional & Dúvidas -->
+            <div class="space-y-2.5">
+                <h4 class="font-bold text-white uppercase text-[11px] tracking-wider">Atendimento & Ajuda</h4>
+                <ul class="space-y-2">
+                    <li><button onclick="abrirModalInstitucional('quem-somos')" class="hover:text-emerald-400 transition-colors">Quem Somos</button></li>
+                    <li><button onclick="abrirModalInstitucional('como-comprar')" class="hover:text-emerald-400 transition-colors">Como Comprar (Combo 2+1)</button></li>
+                    <li><button onclick="abrirModalInstitucional('guia-medidas')" class="hover:text-emerald-400 transition-colors">Guia de Medidas (cm)</button></li>
+                    <li><button onclick="abrirModalInstitucional('faq')" class="hover:text-emerald-400 transition-colors">Perguntas Frequentes (FAQ)</button></li>
+                    <li><button onclick="abrirModalRastreio()" class="hover:text-emerald-400 transition-colors">Rastreamento de Encomendas</button></li>
+                </ul>
+            </div>
+
+            <!-- Políticas & Segurança -->
+            <div class="space-y-2.5">
+                <h4 class="font-bold text-white uppercase text-[11px] tracking-wider">Políticas Transparentes</h4>
+                <ul class="space-y-2">
+                    <li><button onclick="abrirModalInstitucional('trocas')" class="hover:text-emerald-400 transition-colors">Trocas e Devoluções</button></li>
+                    <li><button onclick="abrirModalInstitucional('prazos')" class="hover:text-emerald-400 transition-colors">Prazos de Entrega & Frete</button></li>
+                    <li><button onclick="abrirModalInstitucional('privacidade')" class="hover:text-emerald-400 transition-colors">Política de Privacidade</button></li>
+                    <li><a href="painel/" class="hover:text-emerald-400 transition-colors text-slate-500 font-mono">Área dos Sócios (PIN)</a></li>
+                </ul>
+            </div>
+
+            <!-- Pagamento Seguro & Selos -->
+            <div class="space-y-3">
+                <h4 class="font-bold text-white uppercase text-[11px] tracking-wider">Pagamento 100% Seguro</h4>
+                <p class="text-[11px] leading-relaxed">
+                    Seus dados protegidos com criptografia SSL 256 bits. Pix direto ou Cartão em até 12x.
+                </p>
+                <div class="p-3 bg-black/40 rounded-xl border border-white/5 space-y-1 font-mono text-[11px] text-slate-300">
+                    <div>🔒 Conexão Segura SSL</div>
+                    <div>⚡ Pix com Confirmação em 5s</div>
+                    <div>🛡️ Garantia de Entrega ou Dinheiro de Volta</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+            <div>© 2026 FutStore Brasil • Todos os direitos reservados.</div>
+            <div>Desenvolvido com foco em alta conversão e transparência.</div>
+        </div>
+    </footer>
+
+    <!-- 5. BOTÃO FLUTUANTE DO WHATSAPP (CANTO INFERIOR DIREITO) -->
+    <a href="https://wa.me/5571988887777?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20FutStore%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20os%20mantos!" target="_blank" class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black flex items-center justify-center shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-transform pulse-glow" title="Falar com atendente no WhatsApp">
+        <i data-lucide="message-circle" class="w-7 h-7"></i>
+    </a>
+
+    <!-- Notificação Flutuante de Conversão (Prova Social ao Vivo) -->
+    <div id="live-social-proof" class="hidden fixed bottom-6 left-6 z-30 max-w-xs bg-pitch-800/95 border border-white/10 rounded-2xl p-3 shadow-2xl backdrop-blur-md transition-all duration-500">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                <i data-lucide="check" class="w-4 h-4"></i>
+            </div>
+            <div class="text-[11px]">
+                <strong class="text-white" id="social-proof-name">Alguém de Salvador</strong>
+                <p class="text-slate-400 -mt-0.5" id="social-proof-action">acabou de comprar a Camisa do Bahia</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Principal -->
+    <script src="app.js"></script>
+</body>
+</html>
