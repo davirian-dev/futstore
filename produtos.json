@@ -4,12 +4,12 @@
     "nome": "Camisa Bahia Titular 24/25 - Torcedor",
     "time": "Bahia",
     "categoria": "brasileiros",
-    "preco": 149.90,
-    "preco_antigo": 289.90,
-    "imagem": "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=700&q=80",
+    "preco": 149.9,
+    "preco_antigo": 289.9,
+    "imagem": "assets/produtos/bahia-titular-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=700&q=80",
-      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/bahia-titular-2026.webp",
+      "assets/produtos/bahia-titular-2026_detalhe.webp"
     ],
     "tag": "Mais Vendida",
     "pronta_entrega": true,
@@ -20,12 +20,12 @@
     "nome": "Camisa Vitória Rubro-Negra 24/25 - Oficial",
     "time": "Vitória",
     "categoria": "brasileiros",
-    "preco": 149.90,
-    "preco_antigo": 279.90,
-    "imagem": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80",
+    "preco": 149.9,
+    "preco_antigo": 279.9,
+    "imagem": "assets/produtos/vitoria-titular-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80",
-      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/vitoria-titular-2026.webp",
+      "assets/produtos/vitoria-titular-2026_detalhe.webp"
     ],
     "tag": "Destaque",
     "pronta_entrega": true,
@@ -36,12 +36,12 @@
     "nome": "Camisa Real Madrid Home 24/25 - Branca",
     "time": "Real Madrid",
     "categoria": "europeus",
-    "preco": 159.90,
-    "preco_antigo": 329.90,
-    "imagem": "https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=700&q=80",
+    "preco": 159.9,
+    "preco_antigo": 329.9,
+    "imagem": "assets/produtos/real-madrid-titular-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=700&q=80",
-      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/real-madrid-titular-2026.webp",
+      "assets/produtos/real-madrid-titular-2026_detalhe.webp"
     ],
     "tag": "Campeão Europeu",
     "pronta_entrega": false,
@@ -52,11 +52,12 @@
     "nome": "Camisa Barcelona Retrô Centenário 1999/00 - Rivaldo 10",
     "time": "Barcelona",
     "categoria": "retro",
-    "preco": 169.90,
-    "preco_antigo": 349.90,
-    "imagem": "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=700&q=80",
+    "preco": 169.9,
+    "preco_antigo": 349.9,
+    "imagem": "assets/produtos/barcelona-retro-1999.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/barcelona-retro-1999.webp",
+      "assets/produtos/barcelona-retro-1999_detalhe.webp"
     ],
     "tag": "Retrô Histórica",
     "pronta_entrega": false,
@@ -67,11 +68,12 @@
     "nome": "Camisa Flamengo Rubro-Negra 24/25",
     "time": "Flamengo",
     "categoria": "brasileiros",
-    "preco": 149.90,
-    "preco_antigo": 299.90,
-    "imagem": "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?auto=format&fit=crop&w=700&q=80",
+    "preco": 149.9,
+    "preco_antigo": 299.9,
+    "imagem": "assets/produtos/flamengo-titular-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/flamengo-titular-2026.webp",
+      "assets/produtos/flamengo-titular-2026_detalhe.webp"
     ],
     "tag": "Top Vendas",
     "pronta_entrega": true,
@@ -82,11 +84,12 @@
     "nome": "Camisa Seleção Brasileira Titular Canarinho",
     "time": "Brasil",
     "categoria": "selecoes",
-    "preco": 159.90,
-    "preco_antigo": 319.90,
-    "imagem": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80",
+    "preco": 159.9,
+    "preco_antigo": 319.9,
+    "imagem": "assets/produtos/brasil-amarela-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/brasil-amarela-2026.webp",
+      "assets/produtos/brasil-amarela-2026_detalhe.webp"
     ],
     "tag": "Pentacampeã",
     "pronta_entrega": true,
@@ -97,11 +100,12 @@
     "nome": "Camisa Seleção Brasileira Retrô Copa 2002 - Ronaldo 9",
     "time": "Brasil",
     "categoria": "retro",
-    "preco": 169.90,
-    "preco_antigo": 349.90,
-    "imagem": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80",
+    "preco": 169.9,
+    "preco_antigo": 349.9,
+    "imagem": "assets/produtos/brasil-retro-2002.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/brasil-retro-2002.webp",
+      "assets/produtos/brasil-retro-2002_detalhe.webp"
     ],
     "tag": "Retrô Penta",
     "pronta_entrega": true,
@@ -112,11 +116,12 @@
     "nome": "Camisa Manchester City Home 24/25 - Haaland 9",
     "time": "Manchester City",
     "categoria": "europeus",
-    "preco": 159.90,
-    "preco_antigo": 329.90,
-    "imagem": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=700&q=80",
+    "preco": 159.9,
+    "preco_antigo": 329.9,
+    "imagem": "assets/produtos/man-city-titular-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/man-city-titular-2026.webp",
+      "assets/produtos/man-city-titular-2026_detalhe.webp"
     ],
     "tag": "Premier League",
     "pronta_entrega": false,
@@ -127,11 +132,12 @@
     "nome": "Jaqueta Corta-Vento PSG Paris Saint-Germain Impermeável",
     "time": "PSG",
     "categoria": "agasalhos",
-    "preco": 199.90,
-    "preco_antigo": 399.90,
-    "imagem": "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=700&q=80",
+    "preco": 199.9,
+    "preco_antigo": 399.9,
+    "imagem": "assets/produtos/corta-vento-psg-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/corta-vento-psg-2026.webp",
+      "assets/produtos/corta-vento-psg-2026_detalhe.webp"
     ],
     "tag": "Corta-Vento",
     "pronta_entrega": true,
@@ -142,11 +148,12 @@
     "nome": "Camisa Real Madrid Feminina Babylook 24/25",
     "time": "Real Madrid",
     "categoria": "infantil_feminina",
-    "preco": 149.90,
-    "preco_antigo": 279.90,
-    "imagem": "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80",
+    "preco": 149.9,
+    "preco_antigo": 279.9,
+    "imagem": "assets/produtos/camisa-real-feminina-2026.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/camisa-real-feminina-2026.webp",
+      "assets/produtos/camisa-real-feminina-2026_detalhe.webp"
     ],
     "tag": "Feminina",
     "pronta_entrega": true,
@@ -157,11 +164,12 @@
     "nome": "Regata NBA Los Angeles Lakers #23 - James",
     "time": "Lakers",
     "categoria": "europeus",
-    "preco": 159.90,
-    "preco_antigo": 319.90,
-    "imagem": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=700&q=80",
+    "preco": 159.9,
+    "preco_antigo": 319.9,
+    "imagem": "assets/produtos/lakers-lebron-23.webp",
     "imagens_detalhes": [
-      "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=700&q=80"
+      "assets/produtos/lakers-lebron-23.webp",
+      "assets/produtos/lakers-lebron-23_detalhe.webp"
     ],
     "tag": "NBA Premium",
     "pronta_entrega": false,
