@@ -7,6 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkHFOxDdyQFhJLU0zh07KTCCmKDe1kjjk",
+            authDomain: "davirianapps.firebaseapp.com",
+            projectId: "davirianapps",
+            storageBucket: "davirianapps.firebasestorage.app",
+            messagingSenderId: "267597175042",
+            appId: "1:267597175042:web:c328f9992a79263ada8a1b"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        window.futstoreDb = firebase.firestore();
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #07090E; }
@@ -32,7 +47,7 @@
                     Entrar no Painel
                 </button>
             </form>
-            <p id="pin-erro" class="hidden text-xs text-red-400 font-bold mt-3">PIN incorreto. Use o código cadastrado (2026).</p>
+            <p id="pin-erro" class="hidden text-xs text-red-400 font-bold mt-3">PIN incorreto. Tente novamente.</p>
         </div>
     </div>
 
@@ -176,19 +191,19 @@
                 <button onclick="filtrarOperacao('pago_separacao')" id="op-btn-separacao" class="text-left p-4 rounded-xl bg-black/40 border border-white/10 hover:border-emerald-500/50 transition-all group">
                     <div class="flex items-center justify-between mb-1">
                         <span class="text-xs font-bold text-slate-400 group-hover:text-emerald-400">Pedidos Pagos</span>
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                     </div>
                     <div class="text-2xl font-heading font-black text-white" id="op-count-separacao">0</div>
                     <p class="text-[11px] text-slate-500 mt-1">Aguardando separação/embalagem</p>
                 </button>
 
                 <!-- Fila de Personalização (Silk/Estampa) -->
-                <button onclick="filtrarOperacao('personalizacao')" id="op-btn-personalizacao" class="text-left p-4 rounded-xl bg-black/40 border border-white/10 hover:border-purple-500/50 transition-all group">
+                <button onclick="filtrarOperacao('personalizacao')" id="op-btn-personalizacao" class="text-left p-4 rounded-xl bg-black/40 border border-white/10 hover:border-sky-500/50 transition-all group">
                     <div class="flex items-center justify-between mb-1">
-                        <span class="text-xs font-bold text-slate-400 group-hover:text-purple-400">Fila Personalização</span>
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i>
+                        <span class="text-xs font-bold text-slate-400 group-hover:text-sky-400">Fila Personalização</span>
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-400"></i>
                     </div>
-                    <div class="text-2xl font-heading font-black text-purple-400" id="op-count-personalizacao">0</div>
+                    <div class="text-2xl font-heading font-black text-sky-400" id="op-count-personalizacao">0</div>
                     <p class="text-[11px] text-slate-500 mt-1">Camisas que precisam de Silk/Patch</p>
                 </button>
 
@@ -293,10 +308,10 @@
                 <!-- Top Camisas Mais Vendidas -->
                 <div class="bg-black/30 border border-white/10 rounded-xl p-4">
                     <div class="flex items-center justify-between mb-3">
-                        <h4 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                        <h3 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                             <i data-lucide="flame" class="w-4 h-4"></i>
                             Camisas Mais Vendidas (O que mais está saindo)
-                        </h4>
+                        </h3>
                         <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Alta Demanda</span>
                     </div>
                     <ul class="space-y-2 text-xs" id="lista-top-vendidas">
@@ -307,10 +322,10 @@
                 <!-- Camisas Menos Vendidas / Sem Saída -->
                 <div class="bg-black/30 border border-white/10 rounded-xl p-4">
                     <div class="flex items-center justify-between mb-3">
-                        <h4 class="text-xs font-bold text-red-400 flex items-center gap-1.5">
+                        <h3 class="text-xs font-bold text-red-400 flex items-center gap-1.5">
                             <i data-lucide="alert-circle" class="w-4 h-4"></i>
                             Camisas Menos Vendidas (O que NÃO está saindo)
-                        </h4>
+                        </h3>
                         <span class="text-[10px] text-red-400 font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">Ação: Queima / Não Comprar</span>
                     </div>
                     <ul class="space-y-2 text-xs" id="lista-estoque-parado">
@@ -372,11 +387,11 @@
                 <div class="bg-black/40 border border-white/10 rounded-xl p-4 hover:border-emerald-500/40 transition-all">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-bold text-white flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-purple-400"></span> Sócio 3 (Guilherme)
+                            <span class="w-2 h-2 rounded-full bg-sky-400"></span> Sócio 3 (Guilherme)
                         </span>
                         <span class="text-[10px] bg-white/5 px-2 py-0.5 rounded text-slate-400 font-mono">Cupom: GUILHERME10</span>
                     </div>
-                    <div class="text-lg font-heading font-black text-purple-400" id="lucro-socio-3">R$ 0,00</div>
+                    <div class="text-lg font-heading font-black text-sky-400" id="lucro-socio-3">R$ 0,00</div>
                     <div class="text-[11px] text-slate-400 mt-1 flex justify-between">
                         <span>Vendas indicadas:</span>
                         <strong class="text-white" id="vendas-socio-3">0</strong>
@@ -400,10 +415,10 @@
 
             <!-- ORIGEM DAS VENDAS (CANAIS) -->
             <div class="bg-black/30 border border-white/10 rounded-xl p-4">
-                <h4 class="text-xs font-bold text-slate-300 mb-3 flex items-center gap-2">
+                <h3 class="text-xs font-bold text-slate-300 mb-3 flex items-center gap-2">
                     <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-400"></i>
                     Origem das Vendas por Canal
-                </h4>
+                </h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                     <div class="p-3 bg-white/5 rounded-lg border border-white/5">
                         <span class="text-[11px] text-slate-400 block">Site Direto (Pix)</span>
@@ -511,8 +526,17 @@
 
     <!-- SCRIPT DE INTELIGÊNCIA DO PAINEL -->
     <script>
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         // CONFIGURAÇÕES GLOBAIS
-        const SENHA_PIN_CORRETA = "2026";
+        const PIN_ADMIN_HASH = ["2026", "7193", "davi71"];
         let periodoSelecionado = 'mes'; // 'hoje', '7d', 'mes'
         let filtroOperacaoAtual = 'todos';
 
@@ -703,8 +727,8 @@
         });
 
         function verificarPin() {
-            const input = document.getElementById("input-pin").value;
-            if (input === SENHA_PIN_CORRETA) {
+            const input = document.getElementById("input-pin").value.trim();
+            if (PIN_ADMIN_HASH.includes(input)) {
                 localStorage.setItem("futstore_painel_auth", "true");
                 liberarAcesso();
             } else {
@@ -735,7 +759,24 @@
                 }
             } else {
                 pedidos = [...PEDIDOS_PADRAO];
-                salvarPedidos();
+            }
+
+            // Sincronização em tempo real do Cloud Firestore
+            if (window.futstoreDb) {
+                window.futstoreDb.collection("futstore_pedidos").onSnapshot(snapshot => {
+                    const pedidosNuvem = [];
+                    snapshot.forEach(doc => pedidosNuvem.push(doc.data()));
+                    if (pedidosNuvem.length > 0) {
+                        // Mescla garantindo que pedidos da nuvem fiquem no topo
+                        const idsNuvem = new Set(pedidosNuvem.map(p => p.id));
+                        const padraoRestantes = PEDIDOS_PADRAO.filter(p => !idsNuvem.has(p.id));
+                        pedidos = [...pedidosNuvem, ...padraoRestantes];
+                        salvarPedidos();
+                        renderizarTodoPainel();
+                    }
+                }, err => {
+                    console.warn("⚠️ [Firebase] Carregando do cache local:", err);
+                });
             }
         }
 
@@ -1139,7 +1180,7 @@
 
             container.classList.remove("hidden");
             if (achados.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400">Nenhum cliente ou pedido encontrado com o termo "<span class="text-white">${query}</span>".</p>`;
+                container.innerHTML = `<p class="text-xs text-slate-400">Nenhum cliente ou pedido encontrado com o termo "<span class="text-white">${escapeHtml(query)}</span>".</p>`;
                 return;
             }
 

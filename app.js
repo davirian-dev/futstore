@@ -167,7 +167,11 @@ function buscarProdutos(termo) {
     dropdown.classList.remove("hidden");
 
     if (resultados.length === 0) {
-        dropdown.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Nenhum manto encontrado para "${termo}". Tente "Flamengo", "Real", "2002"...</div>`;
+        const emptyDiv = document.createElement("div");
+        emptyDiv.className = "p-4 text-center text-xs text-slate-400";
+        emptyDiv.textContent = `Nenhum manto encontrado para "${termo}". Tente "Flamengo", "Real", "2002"...`;
+        dropdown.innerHTML = "";
+        dropdown.appendChild(emptyDiv);
         return;
     }
 
@@ -453,9 +457,10 @@ function renderizarCarrinhoItens() {
         const itemEl = document.createElement("div");
         itemEl.className = "flex items-start gap-3 p-3 rounded-2xl bg-pitch-900 border border-white/5";
 
+        const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         const detalhesEstampa = it.personalizado ? `
             <div class="text-[10px] text-purple-300 font-mono mt-0.5">
-                Silk: <strong>${it.estampa.nome} #${it.estampa.numero}</strong> • ${it.estampa.patch}
+                Silk: <strong>${esc(it.estampa.nome)} #${esc(it.estampa.numero)}</strong> • ${esc(it.estampa.patch)}
             </div>
         ` : `<div class="text-[10px] text-slate-500">Sem personalização (lisa)</div>`;
 
@@ -662,9 +667,16 @@ function salvarNovoPedidoNoPainel(pedido) {
             pedidosAtuais = [];
         }
     }
-    // Adiciona no topo
+    // Adiciona no topo local
     pedidosAtuais.unshift(pedido);
     localStorage.setItem("futstore_pedidos_admin", JSON.stringify(pedidosAtuais));
+
+    // Sincroniza em tempo real no Cloud Firestore
+    if (window.futstoreDb) {
+        window.futstoreDb.collection("futstore_pedidos").doc(pedido.id).set(pedido)
+            .then(() => console.log("✅ [Firebase] Pedido salvo na nuvem com sucesso:", pedido.id))
+            .catch(err => console.error("⚠️ [Firebase] Erro ao sincronizar pedido:", err));
+    }
 }
 
 function enviarComprovanteZap() {

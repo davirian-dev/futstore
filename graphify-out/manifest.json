@@ -1,0 +1,165 @@
+{
+  "app.js": {
+    "mtime": 1795564111.251386,
+    "seen": 1795721388.8665397,
+    "ast_hash": "fb19220cf58d23fafc6080ae072c7f96",
+    "semantic_hash": "fb19220cf58d23fafc6080ae072c7f96"
+  },
+  "produtos.json": {
+    "mtime": 1795564111.277369,
+    "seen": 1795721388.8665397,
+    "ast_hash": "1c8211d40b4bfdbd6b7f7a4fc61c3566",
+    "semantic_hash": "1c8211d40b4bfdbd6b7f7a4fc61c3566",
+    "ast_empty": true
+  },
+  "vercel.json": {
+    "mtime": 1795564111.2789042,
+    "seen": 1795721388.8665397,
+    "ast_hash": "24e1b7d6b4db0072146466d12de5e25d",
+    "semantic_hash": "24e1b7d6b4db0072146466d12de5e25d"
+  },
+  "assets/videos/hero_futebol_teaser.mp4": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795721388.867548,
+    "ast_hash": "6161b4d95b7218ea8905f5020c1566d4",
+    "semantic_hash": "6161b4d95b7218ea8905f5020c1566d4"
+  },
+  "AGENTS.md": {
+    "mtime": 1795722346.0862472,
+    "seen": 1795727326.0207424,
+    "ast_hash": "d1c0f2aebc892ecd6779c7fc58b1f922",
+    "semantic_hash": "d1c0f2aebc892ecd6779c7fc58b1f922"
+  },
+  "docs/ARQUITETURA.md": {
+    "mtime": 1795609032.9491713,
+    "seen": 1795727326.0207424,
+    "ast_hash": "bbc57a0c320b999803d7087f4c521c4f",
+    "semantic_hash": "bbc57a0c320b999803d7087f4c521c4f"
+  },
+  "docs/WORKFLOW-IA.md": {
+    "mtime": 1795609034.519248,
+    "seen": 1795727326.0207424,
+    "ast_hash": "beef0b946ed6870a8fe0324612a2ded3",
+    "semantic_hash": "beef0b946ed6870a8fe0324612a2ded3"
+  },
+  "index.html": {
+    "mtime": 1795722543.695119,
+    "seen": 1795727326.0207424,
+    "ast_hash": "c467ab183af64b8d04943cda280c6988",
+    "semantic_hash": "c467ab183af64b8d04943cda280c6988"
+  },
+  "painel/index.html": {
+    "mtime": 1795722549.8529005,
+    "seen": 1795727326.0207424,
+    "ast_hash": "9ff045d2d7f59e223a2f19a49084cb90",
+    "semantic_hash": "9ff045d2d7f59e223a2f19a49084cb90"
+  },
+  "privacidade.html": {
+    "mtime": 1795564111.2764878,
+    "seen": 1795727326.0207424,
+    "ast_hash": "fba29f2eaa86ccf9a212de3a06c3df13",
+    "semantic_hash": "fba29f2eaa86ccf9a212de3a06c3df13"
+  },
+  "robots.txt": {
+    "mtime": 1795564111.277369,
+    "seen": 1795727326.0207424,
+    "ast_hash": "0081247b6a89726c47eb7fc86d61afc3",
+    "semantic_hash": "0081247b6a89726c47eb7fc86d61afc3"
+  },
+  "termos.html": {
+    "mtime": 1795564111.2783866,
+    "seen": 1795727326.0207424,
+    "ast_hash": "d86e271dfa137df479007529c178a2d6",
+    "semantic_hash": "d86e271dfa137df479007529c178a2d6"
+  },
+  "assets/apple-touch-icon.png": {
+    "mtime": 1795564111.2523768,
+    "seen": 1795727326.0207424,
+    "ast_hash": "2ebca89f70e8040e3d899b31c5f68a39",
+    "semantic_hash": "2ebca89f70e8040e3d899b31c5f68a39"
+  },
+  "assets/favicon-32x32.png": {
+    "mtime": 1795564111.2523768,
+    "seen": 1795727326.0207424,
+    "ast_hash": "f8558ec03b0dd9cfb52e1a22a578bed0",
+    "semantic_hash": "f8558ec03b0dd9cfb52e1a22a578bed0"
+  },
+  "assets/og_preview_1200x630.webp": {
+    "mtime": 1795564111.2542255,
+    "seen": 1795727326.0207424,
+    "ast_hash": "32d3c2888052147ddf495a1280b13ca8",
+    "semantic_hash": "32d3c2888052147ddf495a1280b13ca8"
+  },
+  "assets/produtos/bahia-titular-2026.webp": {
+    "mtime": 1795564111.2542255,
+    "seen": 1795727326.0207424,
+    "ast_hash": "f1bb6889ac149ca080402302a9ae5b55",
+    "semantic_hash": "f1bb6889ac149ca080402302a9ae5b55"
+  },
+  "assets/produtos/barcelona-retro-1999.webp": {
+    "mtime": 1795564111.2562392,
+    "seen": 1795727326.0207424,
+    "ast_hash": "bb108d665ec64f633f579a1b05867cad",
+    "semantic_hash": "bb108d665ec64f633f579a1b05867cad"
+  },
+  "assets/produtos/brasil-amarela-2026.webp": {
+    "mtime": 1795564111.2562392,
+    "seen": 1795727326.0207424,
+    "ast_hash": "f7d379bbcd0713be67d7b34e92118126",
+    "semantic_hash": "f7d379bbcd0713be67d7b34e92118126"
+  },
+  "assets/produtos/flamengo-titular-2026.webp": {
+    "mtime": 1795564111.2624316,
+    "seen": 1795727326.0207424,
+    "ast_hash": "36af8307b1de0b07bd095476a4dd85b8",
+    "semantic_hash": "36af8307b1de0b07bd095476a4dd85b8"
+  },
+  "assets/produtos/lakers-lebron-23.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "06488fce2c92f821326a5c445a1aeee1",
+    "semantic_hash": "06488fce2c92f821326a5c445a1aeee1"
+  },
+  "assets/produtos/man-city-titular-2026.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "c4304116e2ab714ada363254c93ad027",
+    "semantic_hash": "c4304116e2ab714ada363254c93ad027"
+  },
+  "assets/produtos/man-city-titular-2026_detalhe.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "9a6a83fa627e5f955c316c9e7caa48e3",
+    "semantic_hash": "9a6a83fa627e5f955c316c9e7caa48e3"
+  },
+  "assets/produtos/real-madrid-titular-2026.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "c1d3d33af561b1caa50566c7878251aa",
+    "semantic_hash": "c1d3d33af561b1caa50566c7878251aa"
+  },
+  "assets/produtos/real-madrid-titular-2026_detalhe.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "1aca65f5b85fe906b55736ae4fc99de6",
+    "semantic_hash": "1aca65f5b85fe906b55736ae4fc99de6"
+  },
+  "assets/produtos/test_bg.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "00bc2c1ae84df9b008764e6ff23fd808",
+    "semantic_hash": "00bc2c1ae84df9b008764e6ff23fd808"
+  },
+  "assets/produtos/vitoria-titular-2026.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "bf0b8979a32a2f5499550e65fb2cda04",
+    "semantic_hash": "bf0b8979a32a2f5499550e65fb2cda04"
+  },
+  "assets/produtos/vitoria-titular-2026_detalhe.webp": {
+    "mtime": 1795564111.2649484,
+    "seen": 1795727326.0207424,
+    "ast_hash": "8fceb6d85da8cca1f58b8d6272902708",
+    "semantic_hash": "8fceb6d85da8cca1f58b8d6272902708"
+  }
+}

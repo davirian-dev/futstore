@@ -1,0 +1,261 @@
+{
+  "communities": {
+    "0": [
+      "app",
+      "app_abrirmodalrastreio",
+      "app_buscarprodutos",
+      "app_calcularfreterapido",
+      "app_carregarcarrinhostorage",
+      "app_carrinho",
+      "app_catalogo",
+      "app_comprarviawhatsappdireto",
+      "app_copiarpixchave",
+      "app_cupons_validos",
+      "app_enviarcomprovantezap",
+      "app_fecharmodalinstitucional",
+      "app_fecharmodalpix",
+      "app_fecharmodalrastreio",
+      "app_iniciarprovasocialaovivo",
+      "app_rastrearencomenda"
+    ],
+    "1": [
+      "agents_rules",
+      "assets_apple_touch_icon_png",
+      "assets_favicon_32x32_png",
+      "assets_og_preview_1200x630_webp",
+      "assets_produtos_bahia_titular_2026_webp",
+      "assets_produtos_barcelona_retro_1999_webp",
+      "index_html",
+      "painel_index_html",
+      "privacidade_html",
+      "termos_html"
+    ],
+    "2": [
+      "app_abrirmodalcarrinho",
+      "app_adicionaraocarrinhomodal",
+      "app_adicionardiretorapido",
+      "app_aplicarcupomcarrinho",
+      "app_atualizarbadgecarrinho",
+      "app_atualizartotaiscarrinho",
+      "app_fecharmodalproduto",
+      "app_removeritemcarrinho",
+      "app_renderizarcarrinhoitens",
+      "app_salvarcarrinhostorage"
+    ],
+    "3": [
+      "assets_produtos_man_city_titular_2026_webp",
+      "assets_produtos_real_madrid_titular_2026_webp",
+      "assets_produtos_vitoria_titular_2026_webp",
+      "docs_arquitetura",
+      "docs_workflow_ia",
+      "index",
+      "painel_index"
+    ],
+    "4": [
+      "app_buscarportime",
+      "app_carregarprodutos",
+      "app_fechardropdownbusca",
+      "app_filtrarcategoria",
+      "app_limparbusca",
+      "app_renderizarprodutos"
+    ],
+    "5": [
+      "vercel",
+      "vercel_cleanurls",
+      "vercel_headers",
+      "vercel_name",
+      "vercel_trailingslash",
+      "vercel_version"
+    ],
+    "6": [
+      "app_abrirmodalproduto",
+      "app_atualizarprecomodal",
+      "app_selecionartamanho",
+      "app_selecionarversao",
+      "app_togglepersonalizacao"
+    ],
+    "7": [
+      "painel_renderizar_sociedade_canais",
+      "painel_renderizar_todo_painel",
+      "painel_verificar_pin"
+    ],
+    "8": [
+      "app_abrirmodalinstitucional",
+      "app_abrirmodalminhaconta"
+    ],
+    "9": [
+      "app_fecharmodalcarrinho",
+      "app_iniciarcheckoutdireto"
+    ],
+    "10": [
+      "app_gerarpixcomdados",
+      "app_salvarnovopedidonopainel"
+    ],
+    "11": [
+      "app_js"
+    ],
+    "12": [
+      "assets_produtos_brasil_amarela_2026_webp"
+    ],
+    "13": [
+      "assets_produtos_flamengo_titular_2026_webp"
+    ],
+    "14": [
+      "assets_produtos_lakers_lebron_23_webp"
+    ],
+    "15": [
+      "assets_produtos_man_city_titular_2026_detalhe_webp"
+    ],
+    "16": [
+      "assets_produtos_real_madrid_titular_2026_detalhe_webp"
+    ],
+    "17": [
+      "assets_produtos_test_bg_webp"
+    ],
+    "18": [
+      "assets_produtos_vitoria_titular_2026_detalhe_webp"
+    ],
+    "19": [
+      "produtos_json"
+    ],
+    "20": [
+      "robots_txt"
+    ]
+  },
+  "cohesion": {
+    "0": 0.125,
+    "1": 0.2,
+    "2": 0.24444444444444444,
+    "3": 0.3333333333333333,
+    "4": 0.3333333333333333,
+    "5": 0.3333333333333333,
+    "6": 0.5,
+    "7": 0.6666666666666666,
+    "8": 1.0,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0
+  },
+  "gods": [
+    {
+      "id": "index_html",
+      "label": "FutStore Brasil Vitrine",
+      "degree": 8
+    },
+    {
+      "id": "app_salvarcarrinhostorage",
+      "label": "salvarCarrinhoStorage()",
+      "degree": 6
+    },
+    {
+      "id": "app_renderizarcarrinhoitens",
+      "label": "renderizarCarrinhoItens()",
+      "degree": 5
+    },
+    {
+      "id": "app_renderizarprodutos",
+      "label": "renderizarProdutos()",
+      "degree": 5
+    },
+    {
+      "id": "painel_index",
+      "label": "Painel dos S\u00f3cios \u2022 FutStore",
+      "degree": 5
+    },
+    {
+      "id": "app_abrirmodalcarrinho",
+      "label": "abrirModalCarrinho()",
+      "degree": 4
+    },
+    {
+      "id": "app_adicionaraocarrinhomodal",
+      "label": "adicionarAoCarrinhoModal()",
+      "degree": 4
+    },
+    {
+      "id": "app_abrirmodalproduto",
+      "label": "abrirModalProduto()",
+      "degree": 4
+    },
+    {
+      "id": "app_atualizarprecomodal",
+      "label": "atualizarPrecoModal()",
+      "degree": 4
+    },
+    {
+      "id": "app_adicionardiretorapido",
+      "label": "adicionarDiretoRapido()",
+      "degree": 3
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Bahia Titular 2026",
+      "target": "FutStore Brasil Vitrine",
+      "source_files": [
+        "assets/produtos/bahia-titular-2026.webp",
+        "index.html"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Bahia Titular 2026` unexpectedly reaches hub `FutStore Brasil Vitrine`"
+    },
+    {
+      "source": "Barcelona Retro 1999",
+      "target": "FutStore Brasil Vitrine",
+      "source_files": [
+        "assets/produtos/barcelona-retro-1999.webp",
+        "index.html"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Barcelona Retro 1999` unexpectedly reaches hub `FutStore Brasil Vitrine`"
+    },
+    {
+      "source": "Painel dos S\u00f3cios \u2022 FutStore",
+      "target": "Man City Home Jersey 2026",
+      "source_files": [
+        "painel/index.html",
+        "assets/produtos/man-city-titular-2026.webp"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Man City Home Jersey 2026` unexpectedly reaches hub `Painel dos S\u00f3cios \u2022 FutStore`"
+    },
+    {
+      "source": "Painel dos S\u00f3cios \u2022 FutStore",
+      "target": "Real Madrid Home Jersey 2026",
+      "source_files": [
+        "painel/index.html",
+        "assets/produtos/real-madrid-titular-2026.webp"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Real Madrid Home Jersey 2026` unexpectedly reaches hub `Painel dos S\u00f3cios \u2022 FutStore`"
+    },
+    {
+      "source": "Painel dos S\u00f3cios \u2022 FutStore",
+      "target": "Vit\u00f3ria Home Jersey 2026",
+      "source_files": [
+        "painel/index.html",
+        "assets/produtos/vitoria-titular-2026.webp"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 image); connects across different repos/directories; peripheral node `Vit\u00f3ria Home Jersey 2026` unexpectedly reaches hub `Painel dos S\u00f3cios \u2022 FutStore`"
+    }
+  ],
+  "tokens": {
+    "input": 75109,
+    "output": 3815
+  }
+}
